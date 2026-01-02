@@ -36,7 +36,7 @@ const OurEdgeSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-secondary/30 relative overflow-hidden perspective-2000">
+    <section ref={ref} className="py-20 lg:py-28 relative overflow-hidden perspective-2000">
       {/* 3D Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
         <FloatingElement duration={14} y={25} x={8} className="absolute top-10 right-1/4">
@@ -90,7 +90,7 @@ const OurEdgeSection = () => {
                     z: 20,
                   }}
                   style={{ transformStyle: "preserve-3d" }}
-                  className="flex gap-4 p-4 rounded-xl hover:bg-card/50 transition-all duration-300 cursor-default"
+                  className="flex gap-4 p-4 rounded-xl hover:bg-card/20 transition-all duration-300 cursor-default"
                 >
                   <motion.div 
                     className="icon-circle-glow flex-shrink-0"
@@ -122,7 +122,7 @@ const OurEdgeSection = () => {
             className="relative"
           >
             <Card3D intensity={12} glareEnabled={true}>
-              <div className="glass-card rounded-3xl p-8 lg:p-12 relative overflow-hidden">
+              <div className="glass-card rounded-3xl p-8 lg:p-12 relative overflow-hidden bg-card/40 backdrop-blur-xl">
                 {/* 3D Background layers */}
                 <div className="absolute inset-0 bg-gradient-to-br from-glow-primary/10 via-transparent to-glow-cyan/10 rounded-3xl" />
                 <motion.div 

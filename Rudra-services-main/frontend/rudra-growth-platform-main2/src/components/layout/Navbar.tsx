@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import rudraLogo from "@/assets/rudra-logo.png";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -62,28 +61,14 @@ const Navbar = () => {
         }`}
       >
         <nav className="container flex items-center justify-between h-16 sm:h-20">
-          {/* Logo with Glassmorphism */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="relative">
-              {/* Glow effect behind logo */}
-              <div className="absolute -inset-2 bg-gradient-to-r from-glow-blue/20 to-glow-purple/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              {/* Glass container - blends with background */}
-              <div className="relative bg-background/80 backdrop-blur-sm rounded-xl p-1.5 border border-border/30 group-hover:border-border/50 transition-all duration-300 overflow-hidden w-14 h-14 flex items-center justify-center">
-                <img 
-                  src={rudraLogo} 
-                  alt="Rudra Groups Logo" 
-                  className="h-full w-full object-contain rounded-lg opacity-90 group-hover:opacity-100 transition-opacity"
-                />
-              </div>
-            </div>
-            
+          {/* Logo */}
+          <Link to="/" className="flex items-center group">
             {/* Company Name */}
             <div className="flex flex-col hidden sm:flex">
-              <span className="font-display text-lg sm:text-xl font-bold text-gradient leading-tight">
+              <span className="font-display text-lg sm:text-xl font-bold text-foreground leading-tight tracking-tight">
                 RUDRA GROUPS
               </span>
-              <span className="text-[9px] sm:text-[10px] text-muted-foreground font-body tracking-widest">
+              <span className="text-[9px] sm:text-[10px] text-muted-foreground font-body tracking-widest uppercase">
                 360° SOLUTIONS ONE TRUSTED NAME
               </span>
             </div>

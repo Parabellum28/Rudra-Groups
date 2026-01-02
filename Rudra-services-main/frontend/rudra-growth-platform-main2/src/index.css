@@ -95,32 +95,8 @@
   }
 
   body {
-    @apply text-foreground antialiased;
+    @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
-    /* Premium diagonal gradient background - deep navy to indigo */
-    background: 
-      /* Subtle radial lighting overlay for depth */
-      radial-gradient(
-        ellipse 120% 100% at 20% 30%,
-        hsl(230, 50%, 12% / 0.4) 0%,
-        transparent 50%
-      ),
-      radial-gradient(
-        ellipse 100% 120% at 80% 70%,
-        hsl(250, 45%, 14% / 0.3) 0%,
-        transparent 50%
-      ),
-      /* Main diagonal gradient - deep navy to purplish indigo */
-      linear-gradient(
-        135deg,
-        hsl(222, 60%, 6%) 0%,
-        hsl(230, 55%, 8%) 25%,
-        hsl(240, 50%, 10%) 50%,
-        hsl(250, 45%, 12%) 75%,
-        hsl(255, 40%, 14%) 100%
-      );
-    background-attachment: fixed;
-    min-height: 100vh;
     /* Improve text rendering on mobile */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -133,8 +109,6 @@
     -webkit-overflow-scrolling: touch;
     /* Prevent text size adjustment on iOS */
     -webkit-text-size-adjust: 100%;
-    /* Ensure full viewport coverage */
-    height: 100%;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -185,8 +159,8 @@
   .glass-card {
     background: linear-gradient(
       135deg,
-      hsl(var(--card) / 0.9) 0%,
-      hsl(222 47% 10% / 0.6) 100%
+      hsl(var(--card) / 0.4) 0%,
+      hsl(222 47% 8% / 0.3) 100%
     );
     backdrop-filter: blur(24px);
     border: 1px solid hsl(var(--glow-primary) / 0.15);
