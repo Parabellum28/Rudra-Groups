@@ -29,6 +29,18 @@ const nextConfig = {
       },
     ];
   },
+
+  // Serve frontend static files
+  // This assumes the frontend dist folder is copied to public folder during build
+  async rewrites() {
+    return [
+      // Don't rewrite API routes
+      {
+        source: '/api/:path*',
+        destination: '/api/:path*',
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
