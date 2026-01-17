@@ -10,7 +10,27 @@ const CTASection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-secondary/30 relative overflow-hidden perspective-2000">
+    <motion.section
+      ref={ref}
+      initial={{ opacity: 0, y: 30, scale: 0.85 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{
+        duration: 0.7,
+        ease: [0.16, 1, 0.3, 1],
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+      }}
+      className="py-20 lg:py-28 bg-background relative overflow-hidden"
+    >
+      {/* Background texture */}
+      <div 
+        className="absolute inset-0 opacity-10"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E")`,
+          mixBlendMode: 'overlay',
+        }}
+      />
       {/* 3D Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
         <FloatingElement duration={12} y={30} x={15} className="absolute top-20 left-10">
@@ -199,7 +219,7 @@ const CTASection = () => {
           </Card3D>
         </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

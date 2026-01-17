@@ -3,6 +3,7 @@ import { Users, Award, Lightbulb, Heart, GraduationCap, Globe } from "lucide-rea
 import Layout from "@/components/layout/Layout";
 import { SectionHeading } from "@/components/ui/section-heading";
 import CTASection from "@/components/home/CTASection";
+import { SectionWrapper } from "@/components/animations/SectionWrapper";
 
 const culturePoints = [
   {
@@ -50,14 +51,9 @@ const Team = () => {
   return (
     <Layout>
       {/* Hero */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-28 bg-primary">
+      <SectionWrapper as="section" className="py-12 sm:py-16 md:py-20 lg:py-28 bg-primary">
         <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center px-4"
-          >
+          <div className="max-w-4xl mx-auto text-center px-4">
             <span className="font-body text-xs sm:text-sm font-semibold uppercase tracking-wider text-primary-foreground/70 mb-4 block">
               Our Team
             </span>
@@ -69,31 +65,25 @@ const Team = () => {
               of thinkers, builders, & dreamers. We don't just have
               a team - we have a movement.
             </p>
-          </motion.div>
+          </div>
         </div>
-      </section>
+      </SectionWrapper>
 
       {/* Tagline Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-background border-b border-border">
+      <SectionWrapper as="section" className="py-12 sm:py-16 lg:py-20 bg-background border-b border-border" delay={0.1}>
         <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto text-center px-4"
-          >
+          <div className="max-w-4xl mx-auto text-center px-4">
             <p className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground leading-relaxed">
               You might not know their names yet
               <br />
               <span className="text-gradient">but you'll definitely know their work.</span>
             </p>
-          </motion.div>
+          </div>
         </div>
-      </section>
+      </SectionWrapper>
 
       {/* Culture */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-28 bg-background">
+      <SectionWrapper as="section" className="py-12 sm:py-16 md:py-20 lg:py-28 bg-background" delay={0.2}>
         <div className="container">
           <SectionHeading
             label="Our Culture"
@@ -105,11 +95,20 @@ const Team = () => {
             {culturePoints.map((point, index) => (
               <motion.div
                 key={point.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="flex gap-6 p-8 bg-muted rounded-xl"
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: false, margin: "-50px" }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: index * 0.1,
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+                whileHover={{ 
+                  y: -5,
+                  scale: 1.02,
+                  transition: { duration: 0.3 }
+                }}
+                className="flex gap-6 p-8 bg-muted card-gradient-glow rounded-xl"
               >
                 <div className="flex-shrink-0 w-14 h-14 bg-primary rounded-lg flex items-center justify-center">
                   <point.icon className="w-7 h-7 text-primary-foreground" />
@@ -126,10 +125,10 @@ const Team = () => {
             ))}
           </div>
         </div>
-      </section>
+      </SectionWrapper>
 
       {/* Expertise */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-28 bg-muted">
+      <SectionWrapper as="section" className="py-12 sm:py-16 md:py-20 lg:py-28 bg-muted" delay={0.3}>
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -155,7 +154,7 @@ const Team = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
-                className="mb-8 p-6 bg-card border border-border rounded-xl"
+                className="mb-8 p-6 bg-card border border-border card-gradient-glow rounded-xl"
               >
                 <p className="font-display text-lg md:text-xl font-medium text-foreground leading-relaxed">
                   They are strategists, innovators, & problem-solvers
@@ -197,7 +196,7 @@ const Team = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="bg-primary rounded-2xl p-8 lg:p-12"
+              className="bg-primary card-gradient-glow rounded-2xl p-8 lg:p-12"
             >
               <h3 className="font-display text-2xl font-bold text-primary-foreground mb-6">
                 Join Our Team
@@ -227,18 +226,12 @@ const Team = () => {
             </motion.div>
           </div>
         </div>
-      </section>
+      </SectionWrapper>
 
       {/* Collaboration */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-28 bg-background">
+      <SectionWrapper as="section" className="py-12 sm:py-16 md:py-20 lg:py-28 bg-background" delay={0.4}>
         <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto text-center"
-          >
+          <div className="max-w-4xl mx-auto text-center">
             <SectionHeading
               label="How We Collaborate"
               title="Your Extended Team"
@@ -265,10 +258,19 @@ const Team = () => {
               ].map((item, index) => (
                 <motion.div
                   key={item.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
+                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: false, margin: "-50px" }}
+                  transition={{ 
+                    duration: 0.6, 
+                    delay: index * 0.1,
+                    ease: [0.16, 1, 0.3, 1]
+                  }}
+                  whileHover={{ 
+                    y: -5,
+                    scale: 1.02,
+                    transition: { duration: 0.3 }
+                  }}
                   className="p-6 bg-muted rounded-xl"
                 >
                   <h4 className="font-display text-lg font-semibold text-foreground mb-3">
@@ -280,9 +282,9 @@ const Team = () => {
                 </motion.div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
-      </section>
+      </SectionWrapper>
 
       <CTASection />
     </Layout>

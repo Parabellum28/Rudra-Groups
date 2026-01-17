@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { SectionWrapper } from "@/components/animations/SectionWrapper";
 
 // Service categories for the dropdown
 const SERVICE_CATEGORIES = [
@@ -166,30 +167,57 @@ const Contact = () => {
   return (
     <Layout>
       {/* Hero */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-28 bg-primary">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center px-4"
-          >
-            <span className="font-body text-xs sm:text-sm font-semibold uppercase tracking-wider text-primary-foreground/70 mb-4 block">
+      <SectionWrapper as="section" className="py-12 sm:py-16 md:py-20 lg:py-28 bg-primary relative overflow-hidden">
+        {/* Animated background elements */}
+        <motion.div
+          className="absolute inset-0 opacity-20"
+          animate={{
+            background: [
+              "radial-gradient(circle at 0% 0%, rgba(255,255,255,0.1) 0%, transparent 50%)",
+              "radial-gradient(circle at 100% 100%, rgba(255,255,255,0.1) 0%, transparent 50%)",
+              "radial-gradient(circle at 0% 0%, rgba(255,255,255,0.1) 0%, transparent 50%)",
+            ],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        
+        <div className="container relative z-10">
+          <div className="max-w-4xl mx-auto text-center px-4">
+            <motion.span
+              className="font-body text-xs sm:text-sm font-semibold uppercase tracking-wider text-primary-foreground/70 mb-4 block"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               Contact Us
-            </span>
-            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-4 sm:mb-6">
+            </motion.span>
+            <motion.h1
+              className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-4 sm:mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
               Let's Build Your Growth Journey Together
-            </h1>
-            <p className="font-body text-base sm:text-lg md:text-xl text-primary-foreground/80 leading-relaxed px-2">
+            </motion.h1>
+            <motion.p
+              className="font-body text-base sm:text-lg md:text-xl text-primary-foreground/80 leading-relaxed px-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
               Ready to transform your business? We're here to listen, understand, 
               and help you achieve your goals.
-            </p>
-          </motion.div>
+            </motion.p>
+          </div>
         </div>
-      </section>
+      </SectionWrapper>
 
       {/* Contact Info & Form */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-28 bg-background">
+      <SectionWrapper as="section" className="py-12 sm:py-16 md:py-20 lg:py-28 bg-background" delay={0.1}>
         <div className="container">
           <div className="grid lg:grid-cols-5 gap-8 sm:gap-12 lg:gap-16">
             {/* Contact Information */}
@@ -486,10 +514,10 @@ const Contact = () => {
             </motion.div>
           </div>
         </div>
-      </section>
+      </SectionWrapper>
 
       {/* Bottom CTA */}
-      <section className="py-16 bg-primary">
+      <SectionWrapper as="section" className="py-16 bg-primary" delay={0.2}>
         <div className="container">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left">
             <div>
@@ -526,7 +554,7 @@ const Contact = () => {
             </div>
           </div>
         </div>
-      </section>
+      </SectionWrapper>
     </Layout>
   );
 };

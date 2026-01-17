@@ -3,12 +3,13 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "../../rudra-logo.png";
 
 const navLinks = [
-  { name: "Home", path: "/" },
   { name: "About", path: "/about" },
   { name: "Services", path: "/services" },
   { name: "Approach", path: "/approach" },
+  { name: "Branding Execution", path: "/branding-execution" },
   { name: "Team", path: "/team" },
   { name: "Contact", path: "/contact" },
 ];
@@ -62,16 +63,8 @@ const Navbar = () => {
       >
         <nav className="container flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center group">
-            {/* Company Name */}
-            <div className="flex flex-col hidden sm:flex">
-              <span className="font-display text-lg sm:text-xl font-bold text-foreground leading-tight tracking-tight">
-                RUDRA GROUPS
-              </span>
-              <span className="text-[9px] sm:text-[10px] text-muted-foreground font-body tracking-widest uppercase">
-                360° SOLUTIONS ONE TRUSTED NAME
-              </span>
-            </div>
+          <Link to="/" className="flex items-center group transition-transform hover:scale-105">
+            <img src={logo} alt="Rudra Groups - Home" className="h-12 sm:h-14 md:h-16 object-contain" />
           </Link>
 
           {/* Desktop Navigation */}

@@ -1,5 +1,5 @@
-import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
+import { motion, useInView } from "framer-motion";
 import {
   Target,
   Megaphone,
@@ -57,7 +57,19 @@ const WhatWeDoSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-background relative overflow-hidden perspective-2000">
+    <motion.section
+      ref={ref}
+      initial={{ opacity: 0, y: 30, scale: 0.85 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{
+        duration: 0.7,
+        ease: [0.16, 1, 0.3, 1],
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+      }}
+      className="py-20 lg:py-28 bg-background relative overflow-hidden perspective-2000"
+    >
       {/* 3D Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
         <FloatingElement duration={12} y={30} x={10} rotate={5} className="absolute top-20 left-10">
@@ -85,6 +97,8 @@ const WhatWeDoSection = () => {
             label="What We Do"
             title="Comprehensive Business Solutions"
             description="From strategy to execution, we provide end-to-end services that drive sustainable growth for your business."
+            kineticTitle={true}
+            kineticVariant="section"
           />
         </motion.div>
 
@@ -92,21 +106,18 @@ const WhatWeDoSection = () => {
           {services.map((service, index) => (
             <motion.div
               key={service.title}
-              initial={{ opacity: 0, y: 40, rotateX: 15 }}
-              animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+              initial={{ opacity: 0, y: 50, scale: 0.9 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: false, margin: "-50px" }}
               transition={{ 
-                duration: 0.7, 
+                duration: 0.6, 
                 delay: index * 0.1,
                 ease: [0.16, 1, 0.3, 1]
               }}
               style={{ transformStyle: "preserve-3d" }}
             >
               <Card3D intensity={8} glareEnabled={true}>
-                <div className="group relative glass-card rounded-2xl p-8 h-full border border-glow-primary/10 hover:border-glow-primary/30 transition-all duration-500">
-                  {/* 3D Glow effect */}
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-glow-primary/10 via-transparent to-glow-cyan/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-glow-primary/20 to-glow-cyan/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 -z-10" />
-                  
+                <div className="group relative glass-card no-glow-line rounded-2xl p-8 h-full transition-all duration-500">
                   <div className="relative z-10">
                     {/* 3D Icon */}
                     <motion.div 
@@ -150,7 +161,7 @@ const WhatWeDoSection = () => {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

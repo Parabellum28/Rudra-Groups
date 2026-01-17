@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import {
   Search,
   FileText,
@@ -12,6 +12,9 @@ import {
 import Layout from "@/components/layout/Layout";
 import { SectionHeading } from "@/components/ui/section-heading";
 import CTASection from "@/components/home/CTASection";
+import AnimatedPeople from "@/components/background/AnimatedPeople";
+import SectionTransition from "@/components/transitions/SectionTransition";
+import { useRef } from "react";
 
 const processSteps = [
   {
@@ -96,11 +99,39 @@ const commitments = [
 ];
 
 const Approach = () => {
+  const heroRef = useRef<HTMLElement>(null);
+  const processRef = useRef<HTMLElement>(null);
+  const commitmentsRef = useRef<HTMLElement>(null);
+  const heroInView = useInView(heroRef, { once: true, margin: "-100px" });
+  const processInView = useInView(processRef, { once: true, margin: "-100px" });
+  const commitmentsInView = useInView(commitmentsRef, { once: true, margin: "-100px" });
+
   return (
     <Layout>
+      <SectionTransition sections={[heroRef, processRef, commitmentsRef]} />
       {/* Hero */}
-      <section className="py-20 lg:py-28 bg-primary">
-        <div className="container">
+      <motion.section
+        ref={heroRef}
+        initial={{ opacity: 0, y: 30, scale: 0.85 }}
+        animate={heroInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+        transition={{
+          duration: 0.7,
+          ease: [0.16, 1, 0.3, 1],
+          type: "spring",
+          stiffness: 100,
+          damping: 15,
+        }}
+        className="py-20 lg:py-28 bg-primary relative overflow-hidden"
+      >
+        {/* Background with people working together */}
+        <div className="absolute inset-0">
+          <AnimatedPeople />
+        </div>
+        
+        {/* Overlay to ensure text readability */}
+        <div className="absolute inset-0 bg-primary/70 backdrop-blur-[2px]" />
+        
+        <div className="container relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -119,10 +150,22 @@ const Approach = () => {
             </p>
           </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Process Steps */}
-      <section className="py-20 lg:py-28 bg-background">
+      <motion.section
+        ref={processRef}
+        initial={{ opacity: 0, y: 30, scale: 0.85 }}
+        animate={processInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+        transition={{
+          duration: 0.7,
+          ease: [0.16, 1, 0.3, 1],
+          type: "spring",
+          stiffness: 100,
+          damping: 15,
+        }}
+        className="py-20 lg:py-28 bg-background"
+      >
         <div className="container">
           <SectionHeading
             label="Our Process"
@@ -134,42 +177,94 @@ const Approach = () => {
             {processSteps.map((step, index) => (
               <motion.div
                 key={step.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className={`flex flex-col lg:flex-row gap-8 p-8 lg:p-12 rounded-2xl ${
+                initial={{ opacity: 0, y: 50, x: index % 2 === 0 ? -30 : 30 }}
+                whileInView={{ opacity: 1, y: 0, x: 0 }}
+                transition={{ 
+                  duration: 0.8, 
+                  delay: index * 0.15,
+                  type: "spring",
+                  stiffness: 100,
+                }}
+                viewport={{ once: true, margin: "-100px" }}
+                whileHover={{ 
+                  scale: 1.02,
+                  y: -5,
+                  transition: { duration: 0.3 }
+                }}
+                className={`flex flex-col lg:flex-row gap-8 p-8 lg:p-12 rounded-2xl card-gradient-glow ${
                   index % 2 === 0 ? "bg-muted" : "bg-card border border-border"
                 }`}
               >
                 <div className="lg:w-1/3">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-14 h-14 bg-primary rounded-xl flex items-center justify-center">
+                  <motion.div
+                    className="flex items-center gap-4 mb-4"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.15 + 0.2 }}
+                  >
+                    <motion.div
+                      className="w-14 h-14 bg-primary rounded-xl flex items-center justify-center"
+                      whileHover={{ 
+                        rotate: 360,
+                        scale: 1.1,
+                      }}
+                      transition={{ duration: 0.6 }}
+                    >
                       <step.icon className="w-7 h-7 text-primary-foreground" />
-                    </div>
+                    </motion.div>
                     <div>
-                      <span className="font-body text-sm font-semibold text-primary uppercase tracking-wider">
+                      <motion.span
+                        className="font-body text-sm font-semibold text-primary uppercase tracking-wider block"
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: index * 0.15 + 0.3 }}
+                      >
                         {step.phase}
-                      </span>
-                      <h3 className="font-display text-2xl font-bold text-foreground">
+                      </motion.span>
+                      <motion.h3
+                        className="font-display text-2xl font-bold text-foreground"
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: index * 0.15 + 0.4 }}
+                      >
                         {step.title}
-                      </h3>
+                      </motion.h3>
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
 
                 <div className="lg:w-2/3">
-                  <p className="font-body text-muted-foreground leading-relaxed mb-6">
+                  <motion.p
+                    className="font-body text-muted-foreground leading-relaxed mb-6"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: index * 0.15 + 0.5 }}
+                  >
                     {step.description}
-                  </p>
+                  </motion.p>
                   <div className="flex flex-wrap gap-3">
-                    {step.activities.map((activity) => (
-                      <span
+                    {step.activities.map((activity, actIndex) => (
+                      <motion.span
                         key={activity}
                         className="px-4 py-2 bg-primary/10 text-primary rounded-full font-body text-sm font-medium"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ 
+                          duration: 0.4, 
+                          delay: index * 0.15 + 0.6 + actIndex * 0.1 
+                        }}
+                        whileHover={{ 
+                          scale: 1.1,
+                          backgroundColor: "hsl(var(--primary) / 0.2)",
+                        }}
                       >
                         {activity}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
                 </div>
@@ -177,10 +272,22 @@ const Approach = () => {
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Commitments */}
-      <section className="py-20 lg:py-28 bg-muted">
+      <motion.section
+        ref={commitmentsRef}
+        initial={{ opacity: 0, y: 30, scale: 0.85 }}
+        animate={commitmentsInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+        transition={{
+          duration: 0.7,
+          ease: [0.16, 1, 0.3, 1],
+          type: "spring",
+          stiffness: 100,
+          damping: 15,
+        }}
+        className="py-20 lg:py-28 bg-muted"
+      >
         <div className="container">
           <SectionHeading
             label="Our Commitment"
@@ -192,26 +299,57 @@ const Approach = () => {
             {commitments.map((commitment, index) => (
               <motion.div
                 key={commitment.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-card p-8 rounded-xl shadow-card text-center"
+                initial={{ opacity: 0, y: 50, rotateY: -15 }}
+                whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
+                transition={{ 
+                  duration: 0.8, 
+                  delay: index * 0.15,
+                  type: "spring",
+                  stiffness: 100,
+                }}
+                viewport={{ once: true, margin: "-50px" }}
+                whileHover={{ 
+                  y: -10,
+                  rotateY: 5,
+                  scale: 1.05,
+                  transition: { duration: 0.3 }
+                }}
+                className="bg-card card-gradient-glow p-8 rounded-xl shadow-card text-center"
               >
-                <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <motion.div
+                  className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6"
+                  whileHover={{ 
+                    rotate: 360,
+                    scale: 1.2,
+                    backgroundColor: "hsl(var(--primary) / 0.2)",
+                  }}
+                  transition={{ duration: 0.6 }}
+                >
                   <commitment.icon className="w-7 h-7 text-primary" />
-                </div>
-                <h3 className="font-display text-xl font-semibold text-foreground mb-3">
+                </motion.div>
+                <motion.h3
+                  className="font-display text-xl font-semibold text-foreground mb-3"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.15 + 0.3 }}
+                >
                   {commitment.title}
-                </h3>
-                <p className="font-body text-sm text-muted-foreground leading-relaxed">
+                </motion.h3>
+                <motion.p
+                  className="font-body text-sm text-muted-foreground leading-relaxed"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.15 + 0.4 }}
+                >
                   {commitment.description}
-                </p>
+                </motion.p>
               </motion.div>
-            ))}
+              ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       <CTASection />
     </Layout>

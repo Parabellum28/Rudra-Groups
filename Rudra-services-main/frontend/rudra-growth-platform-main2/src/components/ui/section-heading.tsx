@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Sparkles } from "lucide-react";
+import { KineticText } from "@/components/animations/KineticText";
 
 interface SectionHeadingProps {
   label?: string;
@@ -8,6 +9,8 @@ interface SectionHeadingProps {
   align?: "left" | "center";
   variant?: "default" | "light";
   className?: string;
+  kineticTitle?: boolean;
+  kineticVariant?: "hero" | "section" | "branding" | "edge";
 }
 
 const SectionHeading = ({
@@ -17,6 +20,8 @@ const SectionHeading = ({
   align = "center",
   variant = "default",
   className,
+  kineticTitle = false,
+  kineticVariant = "section",
 }: SectionHeadingProps) => {
   return (
     <div
@@ -40,10 +45,18 @@ const SectionHeading = ({
       <h2
         className={cn(
           "font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4",
+          align === "center" && "sm:whitespace-nowrap",
           variant === "default" ? "text-foreground" : "text-primary-foreground"
         )}
+        style={align === "center" ? { wordBreak: "keep-all" } : undefined}
       >
-        {title}
+        {kineticTitle ? (
+          <KineticText variant={kineticVariant} delay={0.1} as="span" className="inline-block">
+            {title}
+          </KineticText>
+        ) : (
+          title
+        )}
       </h2>
       {description && (
         <p

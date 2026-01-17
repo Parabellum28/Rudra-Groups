@@ -49,10 +49,22 @@ const AnimatedCounter = ({
 
 const StatsSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: false, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-16 lg:py-20 relative overflow-hidden">
+    <motion.section
+      ref={ref}
+      initial={{ opacity: 0, y: 30, scale: 0.85 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{
+        duration: 0.7,
+        ease: [0.16, 1, 0.3, 1],
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+      }}
+      className="py-16 lg:py-20 relative overflow-hidden"
+    >
       {/* Background ambient glow */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-glow-primary/5 to-transparent" />
       
@@ -104,7 +116,7 @@ const StatsSection = () => {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

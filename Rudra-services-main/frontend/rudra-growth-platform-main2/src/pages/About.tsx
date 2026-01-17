@@ -1,208 +1,317 @@
-import { motion } from "framer-motion";
-import { Target, Eye, Heart, Lightbulb } from "lucide-react";
+import { motion, useInView } from "framer-motion";
 import Layout from "@/components/layout/Layout";
-import { SectionHeading } from "@/components/ui/section-heading";
 import CTASection from "@/components/home/CTASection";
-
-const values = [
-  {
-    icon: Heart,
-    title: "Integrity",
-    description:
-      "We operate with complete transparency and honesty in all our partnerships.",
-  },
-  {
-    icon: Target,
-    title: "Excellence",
-    description:
-      "We strive for exceptional quality in everything we deliver.",
-  },
-  {
-    icon: Lightbulb,
-    title: "Innovation",
-    description:
-      "We embrace new ideas and technologies to drive meaningful change.",
-  },
-  {
-    icon: Eye,
-    title: "Partnership",
-    description:
-      "We succeed when our clients succeed—their growth is our measure.",
-  },
-];
+import { useRef } from "react";
 
 const About = () => {
+  const heroRef = useRef(null);
+  const storyRef = useRef(null);
+  const trustRef = useRef(null);
+  const heroInView = useInView(heroRef, { once: true, margin: "-100px" });
+  const storyInView = useInView(storyRef, { once: true, margin: "-100px" });
+  const trustInView = useInView(trustRef, { once: true, margin: "-100px" });
+
   return (
     <Layout>
       {/* Hero */}
-      <section className="py-20 lg:py-28 bg-primary">
+      <motion.section
+        ref={heroRef}
+        initial={{ opacity: 0, y: 30, scale: 0.85 }}
+        animate={heroInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+        transition={{
+          duration: 0.7,
+          ease: [0.16, 1, 0.3, 1],
+          type: "spring",
+          stiffness: 100,
+          damping: 15,
+        }}
+        className="pt-32 pb-20 lg:pt-40 lg:pb-28 bg-background"
+      >
         <div className="container">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <span className="font-body text-sm font-semibold uppercase tracking-wider text-primary-foreground/70 mb-4 block">
+            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">
               About Rudra Groups
-            </span>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6">
-              Your 360° Business Growth Partner
             </h1>
-            <p className="font-body text-lg md:text-xl text-primary-foreground/80 leading-relaxed">
-              We are a full-service business consulting and execution firm that helps 
-              organizations unlock their potential through integrated strategy, 
-              marketing, expansion, infrastructure, and automation solutions.
+            <p className="font-body text-xl sm:text-2xl text-muted-foreground leading-relaxed font-light max-w-3xl mx-auto">
+              Your trusted partner for 360° business consulting and execution
             </p>
           </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* Company Overview */}
-      <section className="py-20 lg:py-28 bg-background">
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+      {/* Two-Column Story Section */}
+      <motion.section
+        ref={storyRef}
+        initial={{ opacity: 0, y: 30, scale: 0.85 }}
+        animate={storyInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+        transition={{
+          duration: 0.7,
+          ease: [0.16, 1, 0.3, 1],
+          type: "spring",
+          stiffness: 100,
+          damping: 15,
+        }}
+        className="py-20 lg:py-32 bg-background relative overflow-hidden"
+      >
+        {/* Subtle animated background */}
+        <motion.div
+          className="absolute inset-0 opacity-20"
+          animate={{
+            background: [
+              "radial-gradient(circle at 0% 0%, hsl(var(--primary) / 0.1) 0%, transparent 50%)",
+              "radial-gradient(circle at 100% 100%, hsl(var(--accent) / 0.1) 0%, transparent 50%)",
+              "radial-gradient(circle at 0% 0%, hsl(var(--primary) / 0.1) 0%, transparent 50%)",
+            ],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        
+        <div className="container relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+            {/* Left Column - Story */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ 
+                duration: 0.8,
+                type: "spring",
+                stiffness: 100,
+              }}
             >
-              <SectionHeading
-                label="Who We Are"
-                title="Built on Experience, Driven by Results"
-                align="left"
-              />
-              <div className="mt-8 space-y-6 font-body text-muted-foreground leading-relaxed">
-                <p>
-                  Rudra Groups was founded with a singular vision: to be the partner 
-                  that businesses can trust for comprehensive growth solutions. Unlike 
-                  traditional consulting firms that offer advice without accountability, 
-                  we take ownership of execution.
-                </p>
-                <p>
-                  Our team brings together decades of experience across industries, 
-                  combining strategic insight with operational expertise. We understand 
-                  that every business is unique, which is why we tailor our approach to 
-                  meet your specific needs and challenges.
-                </p>
-                <p>
-                  From startups looking to scale to enterprises seeking transformation, 
-                  we've partnered with organizations at every stage of growth, delivering 
-                  measurable results that stand the test of time.
-                </p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="bg-muted rounded-2xl p-8 lg:p-12"
-            >
-              <div className="grid grid-cols-2 gap-8">
+              <motion.h2
+                className="font-display text-3xl lg:text-4xl font-bold text-foreground mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                Our Story
+              </motion.h2>
+              <div className="space-y-6 font-body text-lg text-muted-foreground leading-relaxed">
                 {[
-                  { number: "15+", label: "Years of Experience" },
-                  { number: "500+", label: "Projects Completed" },
-                  { number: "50+", label: "Industry Experts" },
-                  { number: "98%", label: "Client Retention" },
-                ].map((stat, index) => (
-                  <div key={stat.label} className="text-center">
-                    <div className="font-display text-3xl lg:text-4xl font-bold text-primary mb-2">
-                      {stat.number}
-                    </div>
-                    <div className="font-body text-sm text-muted-foreground">
-                      {stat.label}
-                    </div>
-                  </div>
+                  "Rudra Groups was founded with a singular vision: to be the partner that businesses can trust for comprehensive growth solutions. Unlike traditional consulting firms that offer advice without accountability, we take ownership of execution.",
+                  "Our team brings together decades of experience across industries, combining strategic insight with operational expertise. We understand that every business is unique, which is why we tailor our approach to meet your specific needs and challenges.",
+                  "From startups looking to scale to enterprises seeking transformation, we've partnered with organizations at every stage of growth, delivering measurable results that stand the test of time.",
+                ].map((paragraph, index) => (
+                  <motion.p
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ 
+                      duration: 0.6, 
+                      delay: 0.3 + index * 0.1 
+                    }}
+                  >
+                    {paragraph}
+                  </motion.p>
                 ))}
               </div>
             </motion.div>
-          </div>
-        </div>
-      </section>
 
-      {/* Mission & Vision */}
-      <section className="py-20 lg:py-28 bg-muted">
-        <div className="container">
-          <div className="grid md:grid-cols-2 gap-8">
+            {/* Right Column - Mission & Philosophy */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-              className="bg-card p-8 lg:p-12 rounded-xl shadow-card"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ 
+                duration: 0.8, 
+                delay: 0.2,
+                type: "spring",
+                stiffness: 100,
+              }}
+              className="space-y-12"
             >
-              <div className="w-14 h-14 bg-primary rounded-lg flex items-center justify-center mb-6">
-                <Target className="w-7 h-7 text-primary-foreground" />
-              </div>
-              <h3 className="font-display text-2xl font-bold text-foreground mb-4">
-                Our Mission
-              </h3>
-              <p className="font-body text-muted-foreground leading-relaxed">
-                To empower businesses with integrated consulting and execution 
-                services that drive sustainable growth, operational excellence, 
-                and lasting competitive advantage in their respective markets.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="bg-primary p-8 lg:p-12 rounded-xl"
-            >
-              <div className="w-14 h-14 bg-primary-foreground/20 rounded-lg flex items-center justify-center mb-6">
-                <Eye className="w-7 h-7 text-primary-foreground" />
-              </div>
-              <h3 className="font-display text-2xl font-bold text-primary-foreground mb-4">
-                Our Vision
-              </h3>
-              <p className="font-body text-primary-foreground/80 leading-relaxed">
-                To be the most trusted 360° business growth partner globally, 
-                recognized for our commitment to excellence, innovation, and the 
-                transformative impact we create for our clients and their stakeholders.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Values */}
-      <section className="py-20 lg:py-28 bg-background">
-        <div className="container">
-          <SectionHeading
-            label="Our Values"
-            title="Principles That Guide Us"
-            description="Our core values define who we are and how we work with every client, every day."
-          />
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
-            {values.map((value, index) => (
               <motion.div
-                key={value.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="text-center"
+                transition={{ duration: 0.6, delay: 0.3 }}
               >
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <value.icon className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="font-display text-xl font-semibold text-foreground mb-3">
-                  {value.title}
-                </h3>
-                <p className="font-body text-sm text-muted-foreground leading-relaxed">
-                  {value.description}
-                </p>
+                <h2 className="font-display text-3xl lg:text-4xl font-bold text-foreground mb-6">
+                  Our Mission
+                </h2>
+                <motion.p
+                  className="font-body text-lg text-muted-foreground leading-relaxed"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                >
+                  To empower businesses with integrated consulting and execution capabilities 
+                  that drive sustainable growth. We bridge the gap between strategy and 
+                  implementation, ensuring that every recommendation translates into tangible results.
+                </motion.p>
               </motion.div>
-            ))}
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+              >
+                <h2 className="font-display text-3xl lg:text-4xl font-bold text-foreground mb-6">
+                  Execution Philosophy
+                </h2>
+                <p className="font-body text-lg text-muted-foreground leading-relaxed mb-6">
+                  We believe in end-to-end execution. Our approach combines:
+                </p>
+                <ul className="space-y-4 font-body text-lg text-muted-foreground">
+                  {[
+                    { title: "Strategic Clarity", desc: "Understanding your vision and market position" },
+                    { title: "Precision Planning", desc: "Developing actionable roadmaps with clear milestones" },
+                    { title: "Seamless Execution", desc: "Taking ownership from concept to completion" },
+                    { title: "Continuous Optimization", desc: "Measuring, refining, and improving outcomes" },
+                  ].map((item, index) => (
+                    <motion.li
+                      key={item.title}
+                      className="flex items-start gap-3"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ 
+                        duration: 0.5, 
+                        delay: 0.6 + index * 0.1 
+                      }}
+                      whileHover={{ x: 5 }}
+                    >
+                      <motion.span
+                        className="text-primary font-bold mt-1"
+                        animate={{ 
+                          scale: [1, 1.2, 1],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          delay: index * 0.3,
+                        }}
+                      >
+                        •
+                      </motion.span>
+                      <span>
+                        <strong className="text-foreground">{item.title}:</strong> {item.desc}
+                      </span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
+
+      {/* Trust Section */}
+      <motion.section
+        ref={trustRef}
+        initial={{ opacity: 0, y: 30, scale: 0.85 }}
+        animate={trustInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+        transition={{
+          duration: 0.7,
+          ease: [0.16, 1, 0.3, 1],
+          type: "spring",
+          stiffness: 100,
+          damping: 15,
+        }}
+        className="py-20 lg:py-32 bg-muted/30 relative overflow-hidden"
+      >
+        {/* Animated background pattern */}
+        <motion.div
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--primary) / 0.15) 1px, transparent 0)`,
+            backgroundSize: "40px 40px",
+          }}
+          animate={{
+            backgroundPosition: ["0% 0%", "100% 100%"],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+        
+        <div className="container relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <motion.h2
+              className="font-display text-4xl lg:text-5xl font-bold text-foreground mb-8"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, type: "spring" }}
+            >
+              Built on Trust, Driven by Results
+            </motion.h2>
+            <motion.p
+              className="font-body text-xl text-muted-foreground leading-relaxed mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              We've partnered with organizations across industries, from startups to enterprises, 
+              delivering measurable growth and transformation. Our commitment to execution 
+              excellence and long-term partnership sets us apart.
+            </motion.p>
+            <div className="grid sm:grid-cols-3 gap-8">
+              {[
+                { value: "10+", label: "Years of Experience" },
+                { value: "100+", label: "Projects Delivered" },
+                { value: "95%", label: "Client Satisfaction" },
+              ].map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  className="text-center"
+                  initial={{ opacity: 0, y: 30, scale: 0.8 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ 
+                    duration: 0.6, 
+                    delay: 0.3 + index * 0.1,
+                    type: "spring",
+                    stiffness: 100,
+                  }}
+                  whileHover={{ 
+                    scale: 1.1,
+                    y: -5,
+                  }}
+                >
+                  <motion.div
+                    className="text-5xl font-bold text-primary mb-2"
+                    animate={{
+                      scale: [1, 1.05, 1],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      delay: index * 0.5,
+                    }}
+                  >
+                    {stat.value}
+                  </motion.div>
+                  <p className="font-body text-muted-foreground">{stat.label}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </motion.section>
 
       <CTASection />
     </Layout>

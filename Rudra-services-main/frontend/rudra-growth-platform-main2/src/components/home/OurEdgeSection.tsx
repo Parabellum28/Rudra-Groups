@@ -36,7 +36,19 @@ const OurEdgeSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 relative overflow-hidden perspective-2000">
+    <motion.section
+      ref={ref}
+      initial={{ opacity: 0, y: 30, scale: 0.85 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{
+        duration: 0.7,
+        ease: [0.16, 1, 0.3, 1],
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+      }}
+      className="py-20 lg:py-28 relative overflow-hidden perspective-2000"
+    >
       {/* 3D Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
         <FloatingElement duration={14} y={25} x={8} className="absolute top-10 right-1/4">
@@ -58,36 +70,41 @@ const OurEdgeSection = () => {
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-glow-cyan/6 rounded-full blur-[120px] pointer-events-none" />
       
       <div className="container relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Content */}
           <motion.div
             initial={{ opacity: 0, x: -50, rotateY: 10 }}
             animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             style={{ transformStyle: "preserve-3d" }}
+            className="relative z-10"
           >
             <SectionHeading
               label="Our Edge"
               title="Why Clients Choose Rudra Groups"
               description="We combine strategic thinking with hands-on execution to deliver comprehensive solutions that truly transform businesses."
               align="left"
+              kineticTitle={true}
+              kineticVariant="edge"
             />
 
             <div className="grid sm:grid-cols-2 gap-6 mt-12">
               {edges.map((edge, index) => (
                 <motion.div
                   key={edge.title}
-                  initial={{ opacity: 0, y: 30, rotateX: 15 }}
-                  animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: false, margin: "-50px" }}
                   transition={{ 
                     duration: 0.6, 
-                    delay: 0.2 + index * 0.1,
+                    delay: index * 0.1,
                     ease: [0.16, 1, 0.3, 1]
                   }}
                   whileHover={{ 
                     scale: 1.02,
                     rotateY: 5,
                     z: 20,
+                    y: -5,
                   }}
                   style={{ transformStyle: "preserve-3d" }}
                   className="flex gap-4 p-4 rounded-xl hover:bg-card/20 transition-all duration-300 cursor-default"
@@ -119,10 +136,10 @@ const OurEdgeSection = () => {
             animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             style={{ transformStyle: "preserve-3d" }}
-            className="relative"
+            className="relative z-20"
           >
             <Card3D intensity={12} glareEnabled={true}>
-              <div className="glass-card rounded-3xl p-8 lg:p-12 relative overflow-hidden bg-card/40 backdrop-blur-xl">
+              <div className="glass-card no-glow-line rounded-3xl p-8 lg:p-12 relative overflow-hidden bg-card/40 backdrop-blur-xl">
                 {/* 3D Background layers */}
                 <div className="absolute inset-0 bg-gradient-to-br from-glow-primary/10 via-transparent to-glow-cyan/10 rounded-3xl" />
                 <motion.div 
@@ -180,7 +197,7 @@ const OurEdgeSection = () => {
           </motion.div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
