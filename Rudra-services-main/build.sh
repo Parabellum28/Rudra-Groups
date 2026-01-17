@@ -32,8 +32,17 @@ npm run build
 echo "Copying frontend build to backend public folder"
 cd "$ROOT_DIR"
 mkdir -p "$BACKEND_DIR/public"
+# Remove old files if they exist
+rm -rf "$BACKEND_DIR/public"/*
 # Copy all files from dist to public, handling hidden files
 cp -r "$FRONTEND_DIR/dist"/. "$BACKEND_DIR/public/" 2>/dev/null || cp -r "$FRONTEND_DIR/dist"/* "$BACKEND_DIR/public/"
+
+# Verify index.html was copied
+if [ ! -f "$BACKEND_DIR/public/index.html" ]; then
+  echo "ERROR: index.html was not copied to public folder!"
+  exit 1
+fi
+echo "✓ Frontend files copied successfully"
 
 echo "Building backend from: $BACKEND_DIR"
 cd "$ROOT_DIR/$BACKEND_DIR"

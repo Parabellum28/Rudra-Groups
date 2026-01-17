@@ -31,16 +31,8 @@ const nextConfig = {
   },
 
   // Serve frontend static files
-  // This assumes the frontend dist folder is copied to public folder during build
-  async rewrites() {
-    return [
-      // Don't rewrite API routes
-      {
-        source: '/api/:path*',
-        destination: '/api/:path*',
-      },
-    ];
-  },
+  // Static files in public folder are automatically served by Next.js
+  // The catch-all route [[...path]].tsx handles SPA routing
 };
 
 module.exports = nextConfig;
