@@ -33,7 +33,7 @@ const BrandingExecution = () => {
               <Sparkles className="w-4 h-4 text-primary" />
               <span className="text-sm font-medium text-primary">Branding Execution</span>
             </div>
-            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight px-4">
+            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-4 sm:mb-6 leading-tight px-2 sm:px-4">
               <div className="block">
                 <KineticText variant="branding" delay={0.2} className="inline whitespace-normal">
                   Strategic Branding That&nbsp;
@@ -43,7 +43,7 @@ const BrandingExecution = () => {
                 </KineticText>
               </div>
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-4">
               See how Rudra Groups transformed a cultural hospitality vision into a complete, 
               market-ready brand system through strategic thinking, storytelling, and precision execution.
             </p>

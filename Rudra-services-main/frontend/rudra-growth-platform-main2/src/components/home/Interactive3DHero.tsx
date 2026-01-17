@@ -234,8 +234,8 @@ const Interactive3DHero = () => {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             style={{ transform: "translateZ(50px)" }}
           >
-            <h1 className="font-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-foreground mb-8 leading-[1.1] sm:leading-[1.05] tracking-tight px-4">
-              <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-2 sm:gap-3">
+            <h1 className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground mb-6 sm:mb-8 leading-[1.15] sm:leading-[1.1] md:leading-[1.05] tracking-tight px-2 sm:px-4">
+              <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-1.5 sm:gap-2 md:gap-3">
                 <KineticText
                   variant="hero"
                   delay={0.2}
@@ -260,7 +260,7 @@ const Interactive3DHero = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
             style={{ transform: "translateZ(30px)" }}
-            className="font-body text-xl sm:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed font-light text-center"
+            className="font-body text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-muted-foreground mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed font-light text-center px-4"
           >
             Rudra Groups delivers strategy, branding, expansion, infrastructure, and automation solutions 
             with clarity and confidence. Your trusted partner for complete business transformation.

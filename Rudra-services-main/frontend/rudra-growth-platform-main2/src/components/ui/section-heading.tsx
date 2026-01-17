@@ -44,7 +44,7 @@ const SectionHeading = ({
       )}
       <h2
         className={cn(
-          "font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4",
+          "font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-3 sm:mb-4",
           align === "center" && "sm:whitespace-nowrap",
           variant === "default" ? "text-foreground" : "text-primary-foreground"
         )}
@@ -65,7 +65,7 @@ const SectionHeading = ({
       {description && (
         <p
           className={cn(
-            "font-body text-lg leading-relaxed",
+            "font-body text-sm sm:text-base md:text-lg leading-relaxed",
             variant === "default" ? "text-muted-foreground" : "text-primary-foreground/80"
           )}
         >

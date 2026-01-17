@@ -162,12 +162,29 @@
     h1, h2 {
       line-height: 1.2 !important;
       word-spacing: normal;
+      font-size: clamp(1.25rem, 4vw, 2rem) !important; /* Responsive font sizing */
+    }
+    
+    h1 {
+      font-size: clamp(1.5rem, 5vw, 2.5rem) !important;
     }
     
     /* Prevent text from breaking in the middle of phrases */
     .whitespace-normal {
       white-space: normal;
       word-break: keep-all;
+    }
+    
+    /* Ensure text fits on screen at 100% zoom */
+    body {
+      font-size: 14px;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    
+    p {
+      font-size: clamp(0.875rem, 3vw, 1rem) !important;
+      line-height: 1.5 !important;
     }
   }
 
