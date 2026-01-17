@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import Layout from "@/components/layout/Layout";
 import IntroSequence from "@/components/IntroSequence";
 import HeroSection from "@/components/home/HeroSection";
 import StatsSection from "@/components/home/StatsSection";
-import WhatWeDoSection from "@/components/home/WhatWeDoSection";
-import OurEdgeSection from "@/components/home/OurEdgeSection";
-import ProcessTimeline from "@/components/home/ProcessTimeline";
-import CTASection from "@/components/home/CTASection";
+
+// Lazy load sections below the fold for better initial load performance
+const WhatWeDoSection = lazy(() => import("@/components/home/WhatWeDoSection"));
+const OurEdgeSection = lazy(() => import("@/components/home/OurEdgeSection"));
+const ProcessTimeline = lazy(() => import("@/components/home/ProcessTimeline"));
+const CTASection = lazy(() => import("@/components/home/CTASection"));
 
 const Index = () => {
   const [showIntro, setShowIntro] = useState(true);
@@ -27,10 +29,10 @@ const Index = () => {
       setShowIntro(false);
       setShowContent(true);
     } else {
-      // Mark as seen after intro completes
+      // Mark as seen after intro completes - reduced time for faster loading
       const timer = setTimeout(() => {
         sessionStorage.setItem("rudra-intro-shown", "true");
-      }, 8000); // After intro sequence completes
+      }, 5000); // Reduced from 8000ms for faster initial load
       return () => clearTimeout(timer);
     }
   }, []);
@@ -42,10 +44,12 @@ const Index = () => {
         <Layout>
           <HeroSection />
           <StatsSection />
-          <WhatWeDoSection />
-          <OurEdgeSection />
-          <ProcessTimeline />
-          <CTASection />
+          <Suspense fallback={<div className="min-h-screen" />}>
+            <WhatWeDoSection />
+            <OurEdgeSection />
+            <ProcessTimeline />
+            <CTASection />
+          </Suspense>
         </Layout>
       )}
     </>

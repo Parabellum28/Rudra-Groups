@@ -15,8 +15,9 @@ const Interactive3DHero = () => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   
-  const springX = useSpring(mouseX, { stiffness: 150, damping: 15 });
-  const springY = useSpring(mouseY, { stiffness: 150, damping: 15 });
+  // Reduced spring stiffness for better performance
+  const springX = useSpring(mouseX, { stiffness: 100, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 100, damping: 20 });
   
   // Transform mouse position to rotation
   const rotateX = useTransform(springY, [-0.5, 0.5], [15, -15]);
@@ -33,6 +34,13 @@ const Interactive3DHero = () => {
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     
+    // Throttle mouse move for better scroll performance
+    if (mouseMoveTimeoutRef.current) return;
+    
+    mouseMoveTimeoutRef.current = setTimeout(() => {
+      mouseMoveTimeoutRef.current = null;
+    }, 16); // ~60fps
+    
     const rect = containerRef.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -42,15 +50,23 @@ const Interactive3DHero = () => {
     mouseX.set(mouseXValue);
     mouseY.set(mouseYValue);
   };
+  
+  useEffect(() => {
+    return () => {
+      if (mouseMoveTimeoutRef.current) {
+        clearTimeout(mouseMoveTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleMouseLeave = () => {
     mouseX.set(0);
     mouseY.set(0);
   };
 
-  // Generate floating particles
+  // Generate floating particles - reduced count for better performance
   const [particles] = useState(() => 
-    Array.from({ length: 20 }, (_, i) => ({
+    Array.from({ length: 10 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
@@ -59,6 +75,9 @@ const Interactive3DHero = () => {
       delay: Math.random() * 5,
     }))
   );
+  
+  // Throttle mouse move events for better performance
+  const mouseMoveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   return (
     <motion.section
@@ -69,15 +88,21 @@ const Interactive3DHero = () => {
       animate={isInView ? { opacity: 1 } : {}}
       transition={{ duration: 1 }}
       className="relative overflow-hidden bg-background min-h-[100vh] flex items-center perspective-2000"
-      style={{ transformStyle: "preserve-3d" }}
+      style={{ 
+        transformStyle: "preserve-3d",
+        willChange: 'transform',
+        transform: 'translateZ(0)', // GPU acceleration
+      }}
     >
-      {/* Background video */}
+      {/* Background video - optimized loading */}
       <video
         autoPlay
         loop
         muted
         playsInline
+        preload="metadata"
         className="absolute inset-0 w-full h-full object-cover z-0"
+        style={{ willChange: 'auto' }}
       >
         <source src={bgVideo} type="video/mp4" />
       </video>

@@ -11,11 +11,12 @@ const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
+    // Reduced durations for faster initial load
     const steps = [
-      { duration: 1500 }, // Logo reveal
-      { duration: 2000 }, // Company name
-      { duration: 2000 }, // Tagline
-      { duration: 1500 }, // Final reveal
+      { duration: 1000 }, // Logo reveal
+      { duration: 1500 }, // Company name
+      { duration: 1500 }, // Tagline
+      { duration: 1000 }, // Final reveal
     ];
 
     const timers: NodeJS.Timeout[] = [];

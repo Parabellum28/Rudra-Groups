@@ -207,6 +207,21 @@
       will-change: auto;
     }
   }
+
+  /* Optimize hero section and heavy animations */
+  section,
+  .hero-section,
+  [class*="perspective"] {
+    contain: layout style paint;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+
+  /* Optimize video loading */
+  video {
+    will-change: auto;
+    transform: translateZ(0);
+  }
 }
 
 @layer utilities {
