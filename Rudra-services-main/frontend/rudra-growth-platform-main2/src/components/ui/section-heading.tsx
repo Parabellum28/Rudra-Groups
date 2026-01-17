@@ -49,7 +49,8 @@ const SectionHeading = ({
           variant === "default" ? "text-foreground" : "text-primary-foreground"
         )}
         style={{ 
-          wordBreak: "keep-all",
+          wordBreak: "normal",
+          overflowWrap: "normal",
           hyphens: "none",
           lineHeight: "1.2"
         }}

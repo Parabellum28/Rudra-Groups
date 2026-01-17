@@ -234,12 +234,13 @@ const Interactive3DHero = () => {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             style={{ transform: "translateZ(50px)" }}
           >
-            <h1 className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground mb-6 sm:mb-8 leading-[1.15] sm:leading-[1.1] md:leading-[1.05] tracking-tight px-2 sm:px-4">
+            <h1 className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground mb-6 sm:mb-8 leading-[1.15] sm:leading-[1.1] md:leading-[1.05] tracking-tight px-2 sm:px-4" style={{ wordBreak: 'normal', overflowWrap: 'normal' }}>
               <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-1.5 sm:gap-2 md:gap-3">
                 <KineticText
                   variant="hero"
                   delay={0.2}
                   className="inline-block whitespace-nowrap text-center"
+                  style={{ wordBreak: 'normal' }}
                 >
                   360° Business Consulting
                 </KineticText>
@@ -247,6 +248,7 @@ const Interactive3DHero = () => {
                   variant="hero"
                   delay={0.5}
                   className="text-primary inline-block whitespace-nowrap text-center"
+                  style={{ wordBreak: 'normal' }}
                 >
                   End-to-End Execution
                 </KineticText>

@@ -151,28 +151,39 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Space Grotesk', sans-serif;
-    /* Prevent awkward line breaks on mobile */
-    word-break: keep-all;
-    overflow-wrap: break-word;
+    /* Prevent words from breaking in the middle */
+    word-break: normal;
+    overflow-wrap: normal;
     hyphens: none;
+    word-spacing: normal;
   }
   
   /* Better text wrapping on mobile */
   @media (max-width: 768px) {
+    /* Prevent words from breaking */
+    * {
+      word-break: normal !important;
+      overflow-wrap: normal !important;
+      hyphens: none !important;
+    }
+    
     h1, h2 {
       line-height: 1.2 !important;
       word-spacing: normal;
-      font-size: clamp(1.25rem, 4vw, 2rem) !important; /* Responsive font sizing */
+      font-size: clamp(1.25rem, 4vw, 2rem) !important;
+      word-break: normal !important;
+      overflow-wrap: normal !important;
     }
     
     h1 {
       font-size: clamp(1.5rem, 5vw, 2.5rem) !important;
     }
     
-    /* Prevent text from breaking in the middle of phrases */
+    /* Prevent text from breaking in the middle of words */
     .whitespace-normal {
       white-space: normal;
-      word-break: keep-all;
+      word-break: normal !important;
+      overflow-wrap: normal !important;
     }
     
     /* Ensure text fits on screen at 100% zoom */
@@ -180,11 +191,21 @@
       font-size: 14px;
       -webkit-text-size-adjust: 100%;
       text-size-adjust: 100%;
+      word-break: normal;
+      overflow-wrap: normal;
     }
     
     p {
       font-size: clamp(0.875rem, 3vw, 1rem) !important;
       line-height: 1.5 !important;
+      word-break: normal !important;
+      overflow-wrap: normal !important;
+    }
+    
+    /* Prevent breaking in headings and important text */
+    h1, h2, h3, h4, h5, h6, span, div {
+      word-break: normal !important;
+      overflow-wrap: normal !important;
     }
   }
 

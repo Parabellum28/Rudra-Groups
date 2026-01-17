@@ -34,11 +34,11 @@ const BrandingExecution = () => {
               <span className="text-sm font-medium text-primary">Branding Execution</span>
             </div>
             <h1 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-4 sm:mb-6 leading-tight px-2 sm:px-4">
-              <div className="block">
-                <KineticText variant="branding" delay={0.2} className="inline whitespace-normal">
+              <div className="block" style={{ wordBreak: 'normal', overflowWrap: 'normal' }}>
+                <KineticText variant="branding" delay={0.2} className="inline whitespace-normal" style={{ wordBreak: 'normal' }}>
                   Strategic Branding That&nbsp;
                 </KineticText>
-                <KineticText variant="branding" delay={0.6} className="text-gradient inline whitespace-normal">
+                <KineticText variant="branding" delay={0.6} className="text-gradient inline whitespace-normal" style={{ wordBreak: 'normal' }}>
                   Transforms Vision Into Reality
                 </KineticText>
               </div>
