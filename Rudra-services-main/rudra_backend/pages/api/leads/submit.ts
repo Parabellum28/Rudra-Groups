@@ -23,23 +23,40 @@ export default async function handler(
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Content-Type', 'application/json');
 
   // Handle preflight request
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    res.status(200).end();
+    return;
   }
 
   // Only allow POST requests
   if (req.method !== 'POST') {
-    return res.status(405).json({
+    res.status(405).json({
       success: false,
       message: 'Method not allowed. Please use POST.',
     });
+    return;
   }
 
   try {
     console.log('[API] Received lead submission request');
     console.log('[API] Request body:', JSON.stringify(req.body, null, 2));
+    
+    // Check if Google Sheets is configured
+    const hasSpreadsheetId = !!process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
+    const hasCredentials = !!(
+      process.env.GOOGLE_PROJECT_ID &&
+      process.env.GOOGLE_PRIVATE_KEY &&
+      process.env.GOOGLE_CLIENT_EMAIL
+    );
+    
+    console.log('[API] Configuration check:', {
+      hasSpreadsheetId,
+      hasCredentials,
+      spreadsheetId: hasSpreadsheetId ? 'Set' : 'Missing',
+    });
 
     // Validate request body
     const validationResult = leadFormSchema.safeParse(req.body);
@@ -65,34 +82,68 @@ export default async function handler(
     };
 
     // Store in Google Sheets
-    await googleSheetsService.appendLead(leadSubmission);
-    console.log('[API] Lead saved successfully');
+    console.log('[API] Attempting to save lead to Google Sheets...');
+    try {
+      await googleSheetsService.appendLead(leadSubmission);
+      console.log('[API] Lead saved successfully to Google Sheets');
+    } catch (sheetsError: any) {
+      console.error('[API] Google Sheets error:', sheetsError);
+      console.error('[API] Google Sheets error message:', sheetsError.message);
+      console.error('[API] Google Sheets error stack:', sheetsError.stack);
+      // Re-throw to be caught by outer catch block
+      throw sheetsError;
+    }
 
     // Return success response
-    return res.status(201).json({
+    res.status(201).json({
       success: true,
       message: 'Thank you! Your information has been submitted successfully.',
       data: {
         timestamp: leadSubmission.timestamp,
       },
     });
+    return;
   } catch (error: any) {
     console.error('[API] Error processing lead submission:', error);
+    console.error('[API] Error stack:', error.stack);
+    console.error('[API] Error message:', error.message);
 
-    // Determine the appropriate error message
+    // Determine the appropriate error message based on error type
     let userMessage = 'We encountered an issue processing your request. Please try again.';
+    let statusCode = 500;
     
-    if (error.message?.includes('environment variables')) {
-      userMessage = 'Service configuration error. Please contact support.';
-    } else if (error.message?.includes('Access denied') || error.message?.includes('403')) {
-      userMessage = 'Service configuration error. Please contact support.';
-    } else if (error.message?.includes('not found') || error.message?.includes('404')) {
-      userMessage = 'Service configuration error. Please contact support.';
+    // Check for specific error types
+    if (error.message?.includes('environment variables') || error.message?.includes('Missing')) {
+      userMessage = 'Server configuration error: Missing Google Sheets credentials. Please contact support.';
+      statusCode = 500;
+    } else if (error.message?.includes('Access denied') || error.message?.includes('403') || error.message?.includes('permissions')) {
+      userMessage = 'Server configuration error: Google Sheets access denied. Please contact support.';
+      statusCode = 500;
+    } else if (error.message?.includes('not found') || error.message?.includes('404') || error.message?.includes('Spreadsheet')) {
+      userMessage = 'Server configuration error: Google Spreadsheet not found. Please contact support.';
+      statusCode = 500;
+    } else if (error.message?.includes('Failed to save') || error.message?.includes('append')) {
+      userMessage = 'Failed to save your information. Please try again or contact us directly.';
+      statusCode = 500;
+    } else {
+      // For debugging - include error message in development
+      if (process.env.NODE_ENV === 'development') {
+        userMessage = `Error: ${error.message || 'Unknown error'}`;
+      }
     }
 
-    return res.status(500).json({
-      success: false,
-      message: userMessage,
-    });
+    // Ensure we always send a response
+    if (!res.headersSent) {
+      res.status(statusCode).json({
+        success: false,
+        message: userMessage,
+        // Include error details in development
+        ...(process.env.NODE_ENV === 'development' && {
+          error: error.message,
+          stack: error.stack,
+        }),
+      });
+    }
+    return;
   }
 }

@@ -11,8 +11,10 @@ export default function CatchAll() {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  // Don't handle API routes - let Next.js handle them normally
+  // Don't handle API routes - Next.js handles them before this catch-all
+  // This is a safety check to ensure we don't interfere
   if (req.url?.startsWith('/api/')) {
+    // Let Next.js handle API routes - don't return anything
     return { notFound: true };
   }
 

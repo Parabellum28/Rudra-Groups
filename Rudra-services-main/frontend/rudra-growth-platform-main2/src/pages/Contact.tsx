@@ -118,7 +118,36 @@ const Contact = () => {
         }),
       });
 
-      const data = await response.json();
+      // Check if response has content and is JSON
+      const contentType = response.headers.get("content-type");
+      const isJson = contentType && contentType.includes("application/json");
+      
+      // Get response text first to handle empty or non-JSON responses
+      const responseText = await response.text();
+      
+      let data: any = {};
+      
+      // Parse JSON response if available
+      if (responseText) {
+        if (isJson) {
+          try {
+            data = JSON.parse(responseText);
+          } catch (parseError) {
+            console.error("Failed to parse JSON response:", parseError, "Response:", responseText);
+            throw new Error("Invalid response from server. Please try again.");
+          }
+        } else {
+          // If response is not JSON but has content, it's likely an error
+          console.error("Non-JSON response received:", responseText);
+          throw new Error("Server returned an unexpected response. Please try again.");
+        }
+      } else {
+        // Empty response
+        if (!response.ok) {
+          throw new Error("Server returned an empty response. Please try again.");
+        }
+        // Success with empty response is okay, use default data
+      }
 
       if (!response.ok) {
         // Handle validation errors from server
@@ -156,9 +185,25 @@ const Contact = () => {
 
     } catch (error: any) {
       console.error("Error submitting form:", error);
+      console.error("Error details:", {
+        message: error.message,
+        stack: error.stack,
+        name: error.name,
+      });
+      
+      // Provide more helpful error messages
+      let errorMessage = error.message || "Something went wrong. Please try again or contact us directly.";
+      
+      // Check for specific error types
+      if (error.message?.includes("Failed to fetch") || error.message?.includes("NetworkError")) {
+        errorMessage = "Network error. Please check your internet connection and try again.";
+      } else if (error.message?.includes("empty response")) {
+        errorMessage = "Server is not responding. Please try again in a moment or contact us directly.";
+      }
+      
       toast({
         title: "Submission Failed",
-        description: error.message || "Something went wrong. Please try again or contact us directly.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {

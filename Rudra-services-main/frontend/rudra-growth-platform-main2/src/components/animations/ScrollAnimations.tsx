@@ -115,25 +115,44 @@ export const Parallax = ({
   className = "",
 }: ParallaxProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const rafId = useRef<number | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let ticking = false;
+
+    const updateTransform = () => {
       if (!ref.current) return;
       const rect = ref.current.getBoundingClientRect();
       const scrollProgress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
       const clampedProgress = Math.max(0, Math.min(1, scrollProgress));
       const translateY = (clampedProgress - 0.5) * offset;
-      ref.current.style.transform = `translateY(${translateY}px)`;
+      
+      // Use transform for better performance
+      ref.current.style.transform = `translate3d(0, ${translateY}px, 0)`;
+      ref.current.style.willChange = 'transform';
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        rafId.current = requestAnimationFrame(updateTransform);
+        ticking = true;
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
+    handleScroll(); // Initial call
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId.current) {
+        cancelAnimationFrame(rafId.current);
+      }
+    };
   }, [offset]);
 
   return (
-    <div ref={ref} className={className}>
+    <div ref={ref} className={className} style={{ willChange: 'transform' }}>
       {children}
     </div>
   );

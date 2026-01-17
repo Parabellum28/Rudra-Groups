@@ -102,6 +102,23 @@
     -moz-osx-font-smoothing: grayscale;
     /* Prevent horizontal scroll */
     overflow-x: hidden;
+    /* Optimize rendering performance */
+    will-change: scroll-position;
+    /* Enable hardware acceleration */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   html {
@@ -109,6 +126,27 @@
     -webkit-overflow-scrolling: touch;
     /* Prevent text size adjustment on iOS */
     -webkit-text-size-adjust: 100%;
+    /* Optimize font rendering */
+    text-rendering: optimizeLegibility;
+    /* Enable hardware acceleration for smooth scrolling */
+    scroll-behavior: smooth;
+  }
+
+  /* Optimize scrolling performance */
+  * {
+    /* Use GPU acceleration for transforms */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+
+  /* Optimize elements that will be animated during scroll */
+  [data-scroll-animate],
+  .parallax,
+  .scroll-reveal {
+    will-change: transform;
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -121,17 +159,52 @@
     a:not(.no-touch-target) {
       min-height: 44px;
       min-width: 44px;
+      /* Better touch feedback */
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+      touch-action: manipulation;
     }
   }
 
   /* Better form inputs on mobile */
   input, textarea, select {
     font-size: 16px; /* Prevents zoom on iOS */
+    touch-action: manipulation;
   }
 
   @media (min-width: 640px) {
     input, textarea, select {
       font-size: inherit;
+    }
+  }
+
+  /* Optimize images for all devices */
+  img {
+    max-width: 100%;
+    height: auto;
+    image-rendering: -webkit-optimize-contrast;
+  }
+
+  /* Performance optimizations for scroll */
+  @media (prefers-reduced-motion: no-preference) {
+    /* Use GPU acceleration for better scroll performance */
+    body {
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+    }
+  }
+
+  /* Optimize 3D canvas elements during scroll */
+  canvas {
+    will-change: auto;
+    /* Reduce quality during scroll for better performance */
+    image-rendering: -webkit-optimize-contrast;
+  }
+
+  /* Better scrolling performance on mobile */
+  @media (max-width: 768px) {
+    /* Reduce animations on mobile for better performance */
+    [data-scroll-animate] {
+      will-change: auto;
     }
   }
 }

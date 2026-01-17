@@ -21,11 +21,17 @@ const SectionTransition = ({ sections, enabled = true }: SectionTransitionProps)
     const observers: IntersectionObserver[] = [];
     const sectionVisibility = new Map<number, number>(); // Track visibility ratio for each section
 
-    // Track scroll direction
+    // Track scroll direction with throttling
+    let scrollTimeout: NodeJS.Timeout | null = null;
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setScrollDirection(currentScrollY > lastScrollY.current ? "down" : "up");
-      lastScrollY.current = currentScrollY;
+      if (scrollTimeout) return;
+      
+      scrollTimeout = setTimeout(() => {
+        const currentScrollY = window.scrollY;
+        setScrollDirection(currentScrollY > lastScrollY.current ? "down" : "up");
+        lastScrollY.current = currentScrollY;
+        scrollTimeout = null;
+      }, 16); // ~60fps throttling
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -123,6 +129,9 @@ const SectionTransition = ({ sections, enabled = true }: SectionTransitionProps)
     // Cleanup
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
       observers.forEach((observer) => observer.disconnect());
       if (transitionTimeoutRef.current) {
         clearTimeout(transitionTimeoutRef.current);

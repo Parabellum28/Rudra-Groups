@@ -297,7 +297,16 @@ const EnergyTechnology3D = () => {
 
   return (
     <div className="absolute inset-0 pointer-events-none opacity-20">
-      <Canvas>
+      <Canvas
+        dpr={[1, 1.5]}
+        frameloop="demand"
+        performance={{ min: 0.5 }}
+        gl={{ 
+          alpha: true, 
+          antialias: false,
+          powerPreference: "high-performance"
+        }}
+      >
         <Suspense fallback={null}>
           <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={50} />
           <ambientLight intensity={0.5} />

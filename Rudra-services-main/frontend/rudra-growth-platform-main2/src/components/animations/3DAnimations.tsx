@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ReactNode, useRef, MouseEvent } from "react";
+import { ReactNode, useRef, MouseEvent, useEffect } from "react";
 
 interface Card3DProps {
   children: ReactNode;
@@ -131,19 +131,39 @@ export const ParallaxLayer = ({
 }: ParallaxLayerProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const y = useMotionValue(0);
+  const rafId = useRef<number | null>(null);
+  const ticking = useRef(false);
 
   const handleScroll = () => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const scrollProgress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-    const offset = (scrollProgress - 0.5) * 100 * speed;
-    y.set(direction === "up" ? -offset : offset);
+    if (!ref.current || ticking.current) return;
+    
+    ticking.current = true;
+    rafId.current = requestAnimationFrame(() => {
+      if (!ref.current) {
+        ticking.current = false;
+        return;
+      }
+      
+      const rect = ref.current.getBoundingClientRect();
+      const scrollProgress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+      const offset = (scrollProgress - 0.5) * 100 * speed;
+      y.set(direction === "up" ? -offset : offset);
+      ticking.current = false;
+    });
   };
+
+  useEffect(() => {
+    return () => {
+      if (rafId.current) {
+        cancelAnimationFrame(rafId.current);
+      }
+    };
+  }, []);
 
   return (
     <motion.div
       ref={ref}
-      style={{ y }}
+      style={{ y, willChange: 'transform' }}
       className={className}
       onViewportEnter={() => {
         window.addEventListener("scroll", handleScroll, { passive: true });
@@ -151,6 +171,10 @@ export const ParallaxLayer = ({
       }}
       onViewportLeave={() => {
         window.removeEventListener("scroll", handleScroll);
+        if (rafId.current) {
+          cancelAnimationFrame(rafId.current);
+        }
+        ticking.current = false;
       }}
     >
       {children}
