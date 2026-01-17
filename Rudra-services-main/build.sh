@@ -34,15 +34,30 @@ cd "$ROOT_DIR"
 mkdir -p "$BACKEND_DIR/public"
 # Remove old files if they exist
 rm -rf "$BACKEND_DIR/public"/*
-# Copy all files from dist to public, handling hidden files
-cp -r "$FRONTEND_DIR/dist"/. "$BACKEND_DIR/public/" 2>/dev/null || cp -r "$FRONTEND_DIR/dist"/* "$BACKEND_DIR/public/"
 
-# Verify index.html was copied
-if [ ! -f "$BACKEND_DIR/public/index.html" ]; then
-  echo "ERROR: index.html was not copied to public folder!"
+# Copy all files from dist to public, handling hidden files
+if [ -d "$FRONTEND_DIR/dist" ]; then
+  # Try copying with dot files first
+  if ! cp -r "$FRONTEND_DIR/dist"/. "$BACKEND_DIR/public/" 2>/dev/null; then
+    # Fallback to copying without dot
+    cp -r "$FRONTEND_DIR/dist"/* "$BACKEND_DIR/public/" 2>/dev/null || true
+  fi
+  
+  # Verify index.html was copied
+  if [ ! -f "$BACKEND_DIR/public/index.html" ]; then
+    echo "ERROR: index.html was not copied to public folder!"
+    echo "Dist directory contents:"
+    ls -la "$FRONTEND_DIR/dist" || true
+    echo "Public directory contents:"
+    ls -la "$BACKEND_DIR/public" || true
+    exit 1
+  fi
+  echo "✓ Frontend files copied successfully"
+  echo "✓ index.html found at: $BACKEND_DIR/public/index.html"
+else
+  echo "ERROR: Frontend dist directory not found at: $FRONTEND_DIR/dist"
   exit 1
 fi
-echo "✓ Frontend files copied successfully"
 
 echo "Building backend from: $BACKEND_DIR"
 cd "$ROOT_DIR/$BACKEND_DIR"
