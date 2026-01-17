@@ -52,8 +52,21 @@ if [ -d "$FRONTEND_DIR/dist" ]; then
     ls -la "$BACKEND_DIR/public" || true
     exit 1
   fi
+  
+  # Verify assets directory was copied
+  if [ ! -d "$BACKEND_DIR/public/assets" ]; then
+    echo "ERROR: assets directory was not copied to public folder!"
+    exit 1
+  fi
+  
+  # Count files to verify copy was successful
+  DIST_FILE_COUNT=$(find "$FRONTEND_DIR/dist" -type f | wc -l)
+  PUBLIC_FILE_COUNT=$(find "$BACKEND_DIR/public" -type f | wc -l)
+  
   echo "✓ Frontend files copied successfully"
   echo "✓ index.html found at: $BACKEND_DIR/public/index.html"
+  echo "✓ Assets directory found at: $BACKEND_DIR/public/assets"
+  echo "✓ Files copied: $PUBLIC_FILE_COUNT files (dist had $DIST_FILE_COUNT files)"
 else
   echo "ERROR: Frontend dist directory not found at: $FRONTEND_DIR/dist"
   exit 1

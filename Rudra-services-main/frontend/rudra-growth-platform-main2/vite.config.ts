@@ -35,6 +35,7 @@ export default defineConfig(({ mode }) => ({
         manualChunks: (id) => {
           // Keep React together to avoid multiple instances
           if (id.includes('node_modules')) {
+            // React must be in its own chunk and load first
             if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
               return 'vendor-react';
             }

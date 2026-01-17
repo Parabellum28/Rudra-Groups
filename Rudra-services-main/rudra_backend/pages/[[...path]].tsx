@@ -11,10 +11,21 @@ export default function CatchAll() {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const url = req.url || '';
+  
   // Don't handle API routes - Next.js handles them before this catch-all
-  // This is a safety check to ensure we don't interfere
-  if (req.url?.startsWith('/api/')) {
-    // Let Next.js handle API routes - don't return anything
+  if (url.startsWith('/api/')) {
+    return { notFound: true };
+  }
+  
+  // Don't handle static assets - Next.js serves them automatically from public folder
+  // This includes /assets/, /favicon.ico, /robots.txt, etc.
+  if (url.startsWith('/assets/') || 
+      url.startsWith('/favicon.ico') || 
+      url.startsWith('/robots.txt') ||
+      url.startsWith('/placeholder.svg') ||
+      url.includes('.')) {
+    // Let Next.js serve static files - don't interfere
     return { notFound: true };
   }
 
