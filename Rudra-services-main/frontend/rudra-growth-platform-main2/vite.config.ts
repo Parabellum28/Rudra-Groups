@@ -33,29 +33,18 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // Vendor chunks for better code splitting
+          // Keep React together to avoid multiple instances
           if (id.includes('node_modules')) {
-            // React core
             if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
               return 'vendor-react';
             }
-            // Framer Motion
             if (id.includes('framer-motion')) {
               return 'vendor-framer';
             }
-            // Three.js and 3D libraries
             if (id.includes('three') || id.includes('@react-three')) {
               return 'vendor-three';
             }
-            // Radix UI components
-            if (id.includes('@radix-ui')) {
-              return 'vendor-radix';
-            }
-            // Other large libraries
-            if (id.includes('gsap') || id.includes('recharts') || id.includes('@tanstack')) {
-              return 'vendor-utils';
-            }
-            // Everything else
+            // Group other node_modules
             return 'vendor';
           }
         },
