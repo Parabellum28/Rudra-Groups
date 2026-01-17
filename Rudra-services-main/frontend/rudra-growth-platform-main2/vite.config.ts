@@ -28,30 +28,8 @@ export default defineConfig(({ mode }) => ({
     assetsDir: "assets",
     sourcemap: false,
     minify: "esbuild",
-    cssMinify: true,
-    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          // Keep React together to avoid multiple instances
-          if (id.includes('node_modules')) {
-            // React must be in its own chunk and load first
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
-              return 'vendor-react';
-            }
-            if (id.includes('framer-motion')) {
-              return 'vendor-framer';
-            }
-            if (id.includes('three') || id.includes('@react-three')) {
-              return 'vendor-three';
-            }
-            // Group other node_modules
-            return 'vendor';
-          }
-        },
-        // Optimize chunk file names
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name?.split('.') || [];
           const ext = info[info.length - 1];
@@ -65,7 +43,5 @@ export default defineConfig(({ mode }) => ({
         },
       },
     },
-    // Target modern browsers for smaller bundles
-    target: ['es2015', 'edge88', 'firefox78', 'chrome87', 'safari14'],
   },
 }));
