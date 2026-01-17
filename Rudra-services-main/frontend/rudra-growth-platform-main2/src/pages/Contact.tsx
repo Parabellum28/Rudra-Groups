@@ -98,10 +98,12 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      // Get API URL from environment variable or use default
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
+      // Get API URL from environment variable or use relative path for same-domain deployment
+      // If VITE_API_URL is set, use it; otherwise use relative path (works when frontend/backend are on same domain)
+      const apiUrl = import.meta.env.VITE_API_URL || "";
+      const apiEndpoint = apiUrl ? `${apiUrl}/api/leads/submit` : "/api/leads/submit";
       
-      const response = await fetch(`${apiUrl}/api/leads/submit`, {
+      const response = await fetch(apiEndpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
