@@ -26,7 +26,7 @@ ROOT_DIR=$(pwd)
 
 echo "Building frontend from: $FRONTEND_DIR"
 cd "$ROOT_DIR/$FRONTEND_DIR"
-npm install
+npm install --legacy-peer-deps
 npm run build
 
 echo "Copying frontend build to backend public folder"
@@ -37,7 +37,7 @@ cp -r "$FRONTEND_DIR/dist"/. "$BACKEND_DIR/public/" 2>/dev/null || cp -r "$FRONT
 
 echo "Building backend from: $BACKEND_DIR"
 cd "$ROOT_DIR/$BACKEND_DIR"
-npm install
+npm install --legacy-peer-deps
 npm run build
 
 echo "Build completed successfully!"
