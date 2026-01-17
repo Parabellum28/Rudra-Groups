@@ -206,6 +206,34 @@
     [data-scroll-animate] {
       will-change: auto;
     }
+    
+    /* Disable heavy effects on mobile */
+    video {
+      display: none !important;
+    }
+    
+    /* Reduce blur effects on mobile for better performance */
+    [class*="blur-"] {
+      filter: blur(0) !important;
+      -webkit-filter: blur(0) !important;
+    }
+    
+    /* Optimize will-change on mobile */
+    [class*="perspective"],
+    [class*="parallax"] {
+      will-change: auto !important;
+    }
+    
+    /* Reduce animation complexity */
+    [class*="animate-"] {
+      animation-duration: 0.5s !important;
+    }
+    
+    /* Optimize scroll performance */
+    body {
+      -webkit-overflow-scrolling: touch;
+      overflow-scrolling: touch;
+    }
   }
 
   /* Optimize hero section and heavy animations */

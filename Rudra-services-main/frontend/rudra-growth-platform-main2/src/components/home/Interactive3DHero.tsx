@@ -5,19 +5,21 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { KineticText } from "@/components/animations/KineticText";
 import { FloatingElement, OrbitingElement, MorphingShape } from "@/components/animations/3DAnimations";
+import { useIsMobile } from "@/hooks/use-mobile";
 import bgVideo from "@/assets/bg-vid.mp4";
 
 const Interactive3DHero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
+  const isMobile = useIsMobile();
   
-  // Mouse tracking for 3D parallax
+  // Mouse tracking for 3D parallax - disabled on mobile for better performance
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   
-  // Reduced spring stiffness for better performance
-  const springX = useSpring(mouseX, { stiffness: 100, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 100, damping: 20 });
+  // Reduced spring stiffness for better performance, even more on mobile
+  const springX = useSpring(mouseX, { stiffness: isMobile ? 50 : 100, damping: isMobile ? 30 : 20 });
+  const springY = useSpring(mouseY, { stiffness: isMobile ? 50 : 100, damping: isMobile ? 30 : 20 });
   
   // Transform mouse position to rotation
   const rotateX = useTransform(springY, [-0.5, 0.5], [15, -15]);
@@ -32,14 +34,18 @@ const Interactive3DHero = () => {
   const layer3Y = useTransform(springY, [-0.5, 0.5], [-80, 80]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Disable mouse parallax on mobile for better performance
+    if (isMobile) return;
+    
     if (!containerRef.current) return;
     
-    // Throttle mouse move for better scroll performance
+    // Throttle mouse move for better scroll performance - more aggressive on mobile
     if (mouseMoveTimeoutRef.current) return;
     
+    const throttleDelay = isMobile ? 32 : 16; // 30fps on mobile, 60fps on desktop
     mouseMoveTimeoutRef.current = setTimeout(() => {
       mouseMoveTimeoutRef.current = null;
-    }, 16); // ~60fps
+    }, throttleDelay);
     
     const rect = containerRef.current.getBoundingClientRect();
     const width = rect.width;
@@ -64,26 +70,27 @@ const Interactive3DHero = () => {
     mouseY.set(0);
   };
 
-  // Generate floating particles - reduced count for better performance
-  const [particles] = useState(() => 
-    Array.from({ length: 10 }, (_, i) => ({
+  // Generate floating particles - significantly reduced on mobile
+  const [particles] = useState(() => {
+    const particleCount = isMobile ? 3 : 10; // Only 3 particles on mobile
+    return Array.from({ length: particleCount }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
       size: Math.random() * 4 + 2,
       duration: Math.random() * 10 + 10,
       delay: Math.random() * 5,
-    }))
-  );
+    }));
+  });
   
-  // Throttle mouse move events for better performance
+  // Throttle mouse move events for better performance - more aggressive on mobile
   const mouseMoveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   return (
     <motion.section
       ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseMove={!isMobile ? handleMouseMove : undefined}
+      onMouseLeave={!isMobile ? handleMouseLeave : undefined}
       initial={{ opacity: 0 }}
       animate={isInView ? { opacity: 1 } : {}}
       transition={{ duration: 1 }}
@@ -94,31 +101,41 @@ const Interactive3DHero = () => {
         transform: 'translateZ(0)', // GPU acceleration
       }}
     >
-      {/* Background video - optimized loading */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="metadata"
-        className="absolute inset-0 w-full h-full object-cover z-0"
-        style={{ willChange: 'auto' }}
-      >
-        <source src={bgVideo} type="video/mp4" />
-      </video>
+      {/* Background video - disabled on mobile for better performance */}
+      {!isMobile && (
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          style={{ willChange: 'auto' }}
+        >
+          <source src={bgVideo} type="video/mp4" />
+        </video>
+      )}
+      {/* Static gradient background on mobile */}
+      {isMobile && (
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/10 to-accent/10 z-0" />
+      )}
       
       {/* Dark overlay for text readability */}
       <div className="absolute inset-0 bg-background/40 z-[1]" />
       
-      {/* Animated gradient background with parallax */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-accent/5 z-[2]"
-        style={{
-          x: layer1X,
-          y: layer1Y,
-          transformStyle: "preserve-3d",
-        }}
-      />
+      {/* Animated gradient background with parallax - simplified on mobile */}
+      {!isMobile ? (
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-accent/5 z-[2]"
+          style={{
+            x: layer1X,
+            y: layer1Y,
+            transformStyle: "preserve-3d",
+          }}
+        />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-accent/5 z-[2]" />
+      )}
       
       {/* Floating 3D particles */}
       {particles.map((particle) => (
@@ -149,16 +166,21 @@ const Interactive3DHero = () => {
         />
       ))}
 
-      {/* 3D Floating Shapes */}
-      <FloatingElement duration={12} y={40} x={20} className="absolute top-20 left-10 w-32 h-32 opacity-20 z-[2]">
-        <MorphingShape className="w-full h-full" color="hsl(var(--glow-primary) / 0.15)" duration={15} />
-      </FloatingElement>
-      
-      <FloatingElement duration={15} y={35} x={-15} delay={2} className="absolute bottom-20 right-10 w-40 h-40 opacity-15 z-[2]">
-        <MorphingShape className="w-full h-full" color="hsl(var(--glow-cyan) / 0.12)" duration={18} />
-      </FloatingElement>
+      {/* 3D Floating Shapes - disabled on mobile for better performance */}
+      {!isMobile && (
+        <>
+          <FloatingElement duration={12} y={40} x={20} className="absolute top-20 left-10 w-32 h-32 opacity-20 z-[2]">
+            <MorphingShape className="w-full h-full" color="hsl(var(--glow-primary) / 0.15)" duration={15} />
+          </FloatingElement>
+          
+          <FloatingElement duration={15} y={35} x={-15} delay={2} className="absolute bottom-20 right-10 w-40 h-40 opacity-15 z-[2]">
+            <MorphingShape className="w-full h-full" color="hsl(var(--glow-cyan) / 0.12)" duration={18} />
+          </FloatingElement>
+        </>
+      )}
 
-      {/* Orbiting elements */}
+      {/* Orbiting elements - disabled on mobile */}
+      {!isMobile && (
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-[2]">
         <OrbitingElement radius={200} duration={30}>
           <div className="w-3 h-3 rounded-full bg-glow-primary/30 shadow-glow-sm" />
@@ -170,25 +192,30 @@ const Interactive3DHero = () => {
           <div className="w-1.5 h-1.5 rounded-full bg-glow-light/30" />
         </OrbitingElement>
       </div>
+      )}
 
-      {/* Ambient glows with parallax */}
-      <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-glow-primary/10 rounded-full blur-[200px] pointer-events-none z-[2]"
-        style={{
-          x: layer3X,
-          y: layer3Y,
-          transformStyle: "preserve-3d",
-        }}
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.5, 0.8, 0.5],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
+      {/* Ambient glows with parallax - simplified on mobile */}
+      {!isMobile ? (
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-glow-primary/10 rounded-full blur-[200px] pointer-events-none z-[2]"
+          style={{
+            x: layer3X,
+            y: layer3Y,
+            transformStyle: "preserve-3d",
+          }}
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.5, 0.8, 0.5],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      ) : (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-glow-primary/5 rounded-full blur-[150px] pointer-events-none z-[2]" />
+      )}
 
       {/* Main content with 3D transform */}
       <div className="container relative z-10 py-20 lg:py-32">
