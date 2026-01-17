@@ -151,6 +151,24 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Space Grotesk', sans-serif;
+    /* Prevent awkward line breaks on mobile */
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    hyphens: none;
+  }
+  
+  /* Better text wrapping on mobile */
+  @media (max-width: 768px) {
+    h1, h2 {
+      line-height: 1.2 !important;
+      word-spacing: normal;
+    }
+    
+    /* Prevent text from breaking in the middle of phrases */
+    .whitespace-normal {
+      white-space: normal;
+      word-break: keep-all;
+    }
   }
 
   /* Improve touch targets on mobile */

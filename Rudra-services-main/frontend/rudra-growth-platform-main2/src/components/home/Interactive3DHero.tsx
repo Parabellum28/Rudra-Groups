@@ -234,19 +234,19 @@ const Interactive3DHero = () => {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             style={{ transform: "translateZ(50px)" }}
           >
-            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-foreground mb-8 leading-[1.05] tracking-tight">
-              <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-3">
+            <h1 className="font-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-foreground mb-8 leading-[1.1] sm:leading-[1.05] tracking-tight px-4">
+              <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-2 sm:gap-3">
                 <KineticText
                   variant="hero"
                   delay={0.2}
-                  className="inline-block whitespace-nowrap"
+                  className="inline-block whitespace-nowrap text-center"
                 >
                   360° Business Consulting
                 </KineticText>
                 <KineticText
                   variant="hero"
                   delay={0.5}
-                  className="text-primary inline-block whitespace-nowrap"
+                  className="text-primary inline-block whitespace-nowrap text-center"
                 >
                   End-to-End Execution
                 </KineticText>

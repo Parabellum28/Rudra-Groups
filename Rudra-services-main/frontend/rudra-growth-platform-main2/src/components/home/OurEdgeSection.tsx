@@ -86,6 +86,7 @@ const OurEdgeSection = () => {
               align="left"
               kineticTitle={true}
               kineticVariant="edge"
+              className="break-words"
             />
 
             <div className="grid sm:grid-cols-2 gap-6 mt-12">
