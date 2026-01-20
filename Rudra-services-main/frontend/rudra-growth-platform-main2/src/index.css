@@ -299,7 +299,18 @@
     
     /* Reduce animation complexity */
     [class*="animate-"] {
-      animation-duration: 0.5s !important;
+      animation-duration: 0.3s !important;
+      animation-timing-function: ease-out !important;
+    }
+    
+    /* Disable complex spring animations on mobile */
+    * {
+      transition-timing-function: ease-out !important;
+    }
+    
+    /* Simplify framer-motion animations */
+    [data-framer-component] {
+      transition-duration: 0.3s !important;
     }
     
     /* Optimize scroll performance */
@@ -498,6 +509,42 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    /* Fallback for browsers that don't support background-clip: text */
+    color: hsl(var(--glow-primary));
+  }
+  
+  /* Ensure text-gradient works on mobile browsers */
+  @supports (-webkit-background-clip: text) or (background-clip: text) {
+    .text-gradient {
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+  }
+  
+  /* Fallback for mobile browsers that have issues with text gradients */
+  @media (max-width: 768px) {
+    .text-gradient {
+      /* Ensure visibility even if gradient doesn't work */
+      color: hsl(var(--glow-primary)) !important;
+      background: none !important;
+      -webkit-text-fill-color: hsl(var(--glow-primary)) !important;
+    }
+    
+    /* Try to apply gradient if supported */
+    @supports (-webkit-background-clip: text) {
+      .text-gradient {
+        background: linear-gradient(
+          135deg,
+          hsl(var(--glow-light)) 0%,
+          hsl(var(--glow-primary)) 50%,
+          hsl(var(--glow-cyan)) 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+      }
+    }
   }
 
   .text-gradient-subtle {
