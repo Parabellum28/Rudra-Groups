@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight, Phone, Mail, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +6,9 @@ import { Card3D, FloatingElement, MorphingShape, OrbitingElement } from "@/compo
 import { useRef } from "react";
 
 const CTASection = () => {
+  const location = useLocation();
+  // Hide "Explore Our Services" button on Services and Team pages (desktop only)
+  const shouldHideExplore = (location.pathname === "/services" || location.pathname === "/team");
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -78,7 +81,7 @@ const CTASection = () => {
           style={{ transformStyle: "preserve-3d" }}
         >
           <Card3D intensity={8} glareEnabled={true}>
-            <div className="glass-card rounded-3xl p-8 md:p-12 lg:p-16 text-center max-w-4xl mx-auto relative overflow-hidden">
+            <div className="glass-card cta-section no-glow-line rounded-3xl p-8 md:p-12 lg:p-16 text-center max-w-4xl mx-auto relative overflow-hidden">
               {/* 3D Background effects inside card */}
               <motion.div 
                 className="absolute inset-0 bg-gradient-to-br from-glow-primary/10 via-transparent to-glow-cyan/10"
@@ -166,7 +169,11 @@ const CTASection = () => {
                       </Link>
                     </Button>
                   </motion.div>
-                  <motion.div whileHover={{ scale: 1.05, rotateY: -5 }} whileTap={{ scale: 0.98 }}>
+                  <motion.div 
+                    whileHover={{ scale: 1.05, rotateY: -5 }} 
+                    whileTap={{ scale: 0.98 }}
+                    className={shouldHideExplore ? "lg:hidden" : ""}
+                  >
                     <Button 
                       asChild 
                       size="lg" 

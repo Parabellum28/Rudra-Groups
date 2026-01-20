@@ -77,7 +77,7 @@ const OurEdgeSection = () => {
             animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             style={{ transformStyle: "preserve-3d" }}
-            className="relative z-10"
+            className="relative z-10 lg:mb-8"
           >
             <SectionHeading
               label="Our Edge"
@@ -136,7 +136,7 @@ const OurEdgeSection = () => {
             animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             style={{ transformStyle: "preserve-3d" }}
-            className="relative z-20"
+            className="relative z-10 lg:z-20 lg:sticky lg:top-24 lg:mt-6"
           >
             <Card3D intensity={12} glareEnabled={true}>
               <div className="glass-card no-glow-line rounded-3xl p-8 lg:p-12 relative overflow-hidden bg-card/40 backdrop-blur-xl">
@@ -159,7 +159,7 @@ const OurEdgeSection = () => {
                   </motion.div>
                   
                   <blockquote 
-                    className="font-display text-xl lg:text-2xl text-foreground font-medium leading-relaxed mb-8"
+                    className="font-display text-xl lg:text-2xl text-foreground font-medium leading-relaxed mb-8 lg:mt-6"
                     style={{ transform: "translateZ(25px)" }}
                   >
                     "Rudra Groups transformed our operations and helped us achieve 
@@ -168,7 +168,7 @@ const OurEdgeSection = () => {
                   </blockquote>
                   
                   <div 
-                    className="flex items-center gap-4"
+                    className="flex items-center gap-4 lg:mt-[30px]"
                     style={{ transform: "translateZ(30px)" }}
                   >
                     <motion.div 

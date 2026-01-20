@@ -130,12 +130,13 @@ const Team = () => {
       {/* Expertise */}
       <SectionWrapper as="section" className="py-12 sm:py-16 md:py-20 lg:py-28 bg-muted" delay={0.3}>
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
+              className="relative z-10"
             >
               <SectionHeading
                 label="Our Expertise"
@@ -196,7 +197,7 @@ const Team = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="bg-primary card-gradient-glow rounded-2xl p-8 lg:p-12"
+              className="bg-primary card-gradient-glow rounded-2xl p-8 lg:p-12 relative z-10 lg:sticky lg:top-24 lg:mt-[136px]"
             >
               <h3 className="font-display text-2xl font-bold text-primary-foreground mb-6">
                 Join Our Team

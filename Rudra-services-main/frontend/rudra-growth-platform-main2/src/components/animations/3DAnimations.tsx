@@ -67,7 +67,7 @@ export const Card3D = ({
       
       {glareEnabled && (
         <motion.div
-          className="absolute inset-0 rounded-inherit pointer-events-none"
+          className="absolute top-6 left-0 right-0 bottom-0 rounded-inherit pointer-events-none lg:top-6"
           style={{
             background: `radial-gradient(circle at ${glareX} ${glareY}, hsl(var(--glow-light) / 0.15), transparent 50%)`,
             borderRadius: "inherit",

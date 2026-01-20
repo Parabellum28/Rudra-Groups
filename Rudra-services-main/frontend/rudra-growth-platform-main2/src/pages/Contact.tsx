@@ -590,8 +590,8 @@ const Contact = () => {
               <Button
                 asChild
                 size="lg"
-                variant="outline"
-                className="flex-shrink-0 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                variant="secondary"
+                className="flex-shrink-0"
               >
                 <a href="mailto:operations@rudra-groups.com">
                   <Mail className="w-4 h-4 mr-2" />

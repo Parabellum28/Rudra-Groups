@@ -25,6 +25,7 @@ import towels from "@/assets/sogadu-towels.png";
 const BrandingExecution = () => {
   return (
     <Layout>
+      <div data-page="branding-execution">
       {/* Hero Section */}
       <SectionWrapper as="section" className="relative py-20 lg:py-32 overflow-hidden">
         <div className="container relative z-10">
@@ -34,18 +35,18 @@ const BrandingExecution = () => {
               <span className="text-sm font-medium text-primary">Branding Execution</span>
             </div>
             <h1 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-4 sm:mb-6 leading-tight px-2 sm:px-4">
-              <div className="block" style={{ wordBreak: 'normal', overflowWrap: 'normal' }}>
-                <KineticText variant="branding" delay={0.2} className="inline whitespace-normal" style={{ wordBreak: 'normal' }}>
-                  Strategic Branding That&nbsp;
+              <div className="block">
+                <KineticText variant="branding" delay={0.2} className="block" style={{ wordBreak: 'keep-all' }}>
+                  Strategic Branding That
                 </KineticText>
-                <KineticText variant="branding" delay={0.6} className="text-gradient inline whitespace-normal" style={{ wordBreak: 'normal' }}>
+                <KineticText variant="branding" delay={0.6} className="text-gradient block" style={{ wordBreak: 'keep-all' }}>
                   Transforms Vision Into Reality
                 </KineticText>
               </div>
             </h1>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-4">
               See how Rudra Groups transformed a cultural hospitality vision into a complete, 
-              market-ready brand system through strategic thinking, storytelling, and precision execution.
+              market-ready brand system. Transforms Vision Into Reality through strategic thinking, storytelling, and precision execution.
             </p>
           </div>
         </div>
@@ -508,6 +509,7 @@ const BrandingExecution = () => {
       </SectionWrapper>
 
       <CTASection />
+      </div>
     </Layout>
   );
 };
