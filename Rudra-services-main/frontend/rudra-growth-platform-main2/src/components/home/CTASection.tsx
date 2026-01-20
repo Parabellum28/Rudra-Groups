@@ -7,8 +7,14 @@ import { useRef } from "react";
 
 const CTASection = () => {
   const location = useLocation();
-  // Hide "Explore Our Services" button on Services and Team pages (desktop only)
-  const shouldHideExplore = (location.pathname === "/services" || location.pathname === "/team");
+  // Hide "Explore Our Services" button on Team page
+  const shouldHideExplore = location.pathname === "/team";
+  // Show "Explore Our Branding Execution" on Approach page instead of "Explore Our Services"
+  const isApproachPage = location.pathname === "/approach";
+  // Show "Explore Approach" on Services page instead of "Explore Our Services"
+  const isServicesPage = location.pathname === "/services";
+  // Show "About Team" on Branding Execution page instead of "Explore Our Services"
+  const isBrandingExecutionPage = location.pathname === "/branding-execution";
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -169,20 +175,63 @@ const CTASection = () => {
                       </Link>
                     </Button>
                   </motion.div>
-                  <motion.div 
-                    whileHover={{ scale: 1.05, rotateY: -5 }} 
-                    whileTap={{ scale: 0.98 }}
-                    className={shouldHideExplore ? "lg:hidden" : ""}
-                  >
-                    <Button 
-                      asChild 
-                      size="lg" 
-                      variant="outline" 
-                      className="border-glow-primary/30 bg-card/50 hover:bg-card hover:border-glow-primary/60 hover:shadow-glow-sm text-foreground transition-all duration-300"
+                  {isApproachPage ? (
+                    <motion.div 
+                      whileHover={{ scale: 1.05, rotateY: -5 }} 
+                      whileTap={{ scale: 0.98 }}
                     >
-                      <Link to="/services">Explore Our Services</Link>
-                    </Button>
-                  </motion.div>
+                      <Button 
+                        asChild 
+                        size="lg" 
+                        variant="outline" 
+                        className="border-glow-primary/30 bg-card/50 hover:bg-card hover:border-glow-primary/60 hover:shadow-glow-sm text-foreground transition-all duration-300"
+                      >
+                        <Link to="/branding-execution">Explore Our Branding Execution</Link>
+                      </Button>
+                    </motion.div>
+                  ) : isServicesPage ? (
+                    <motion.div 
+                      whileHover={{ scale: 1.05, rotateY: -5 }} 
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Button 
+                        asChild 
+                        size="lg" 
+                        variant="outline" 
+                        className="border-glow-primary/30 bg-card/50 hover:bg-card hover:border-glow-primary/60 hover:shadow-glow-sm text-foreground transition-all duration-300"
+                      >
+                        <Link to="/approach">Explore Approach</Link>
+                      </Button>
+                    </motion.div>
+                  ) : isBrandingExecutionPage ? (
+                    <motion.div 
+                      whileHover={{ scale: 1.05, rotateY: -5 }} 
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Button 
+                        asChild 
+                        size="lg" 
+                        variant="outline" 
+                        className="border-glow-primary/30 bg-card/50 hover:bg-card hover:border-glow-primary/60 hover:shadow-glow-sm text-foreground transition-all duration-300"
+                      >
+                        <Link to="/team">About Team</Link>
+                      </Button>
+                    </motion.div>
+                  ) : !shouldHideExplore && (
+                    <motion.div 
+                      whileHover={{ scale: 1.05, rotateY: -5 }} 
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Button 
+                        asChild 
+                        size="lg" 
+                        variant="outline" 
+                        className="border-glow-primary/30 bg-card/50 hover:bg-card hover:border-glow-primary/60 hover:shadow-glow-sm text-foreground transition-all duration-300"
+                      >
+                        <Link to="/services">Explore Our Services</Link>
+                      </Button>
+                    </motion.div>
+                  )}
                 </motion.div>
 
                 {/* 3D Contact Info */}

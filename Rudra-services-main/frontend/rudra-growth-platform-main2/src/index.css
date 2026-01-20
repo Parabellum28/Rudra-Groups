@@ -419,6 +419,16 @@
       0 -2px 40px hsl(250 80% 70% / 0.3);
   }
 
+  /* Remove glass-card glow on mobile */
+  @media (max-width: 768px) {
+    .glass-card::after {
+      display: none !important;
+      content: none !important;
+      height: 0 !important;
+      opacity: 0 !important;
+    }
+  }
+
   .glass-card.no-glow-line::after {
     display: none;
   }
@@ -865,6 +875,16 @@
       0 -6px 80px hsl(280 70% 65% / 0.3);
     z-index: 1;
     border-radius: 0 0 inherit inherit;
+  }
+  
+  /* Remove purple glow on mobile */
+  @media (max-width: 768px) {
+    .card-gradient-glow::after {
+      display: none !important;
+      content: none !important;
+      height: 0 !important;
+      opacity: 0 !important;
+    }
   }
   
   /* Remove purple glow on desktop only */
