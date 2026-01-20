@@ -102,11 +102,16 @@
     -moz-osx-font-smoothing: grayscale;
     /* Prevent horizontal scroll */
     overflow-x: hidden;
-    /* Optimize rendering performance */
-    will-change: scroll-position;
-    /* Enable hardware acceleration */
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
+    /* Optimize rendering performance - removed will-change as it causes issues on mobile */
+  }
+  
+  /* Only enable hardware acceleration on desktop */
+  @media (min-width: 769px) {
+    body {
+      will-change: scroll-position;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+    }
   }
 
   /* Respect user's motion preferences */
@@ -128,16 +133,19 @@
     -webkit-text-size-adjust: 100%;
     /* Optimize font rendering */
     text-rendering: optimizeLegibility;
-    /* Enable hardware acceleration for smooth scrolling */
+    /* Smooth scrolling - disabled on mobile via media query */
     scroll-behavior: smooth;
   }
-
-  /* Optimize scrolling performance */
-  * {
-    /* Use GPU acceleration for transforms */
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
+  
+  /* Disable smooth scrolling on mobile for better performance */
+  @media (max-width: 768px) {
+    html {
+      scroll-behavior: auto !important;
+    }
   }
+
+  /* Optimize scrolling performance - Only apply to elements that need it */
+  /* Removed universal transform rule as it causes performance issues on mobile */
 
   /* Optimize elements that will be animated during scroll */
   [data-scroll-animate],
@@ -268,16 +276,25 @@
       display: none !important;
     }
     
-    /* Reduce blur effects on mobile for better performance */
-    [class*="blur-"] {
+    /* Disable ALL blur effects on mobile for better performance */
+    [class*="blur-"],
+    * {
       filter: blur(0) !important;
       -webkit-filter: blur(0) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
     }
     
-    /* Optimize will-change on mobile */
+    /* Optimize will-change on mobile - remove from most elements */
     [class*="perspective"],
-    [class*="parallax"] {
+    [class*="parallax"],
+    * {
       will-change: auto !important;
+    }
+    
+    /* Only allow will-change on actively animating elements */
+    [class*="animate-"]:not([class*="animate-none"]) {
+      will-change: transform, opacity;
     }
     
     /* Reduce animation complexity */
@@ -290,6 +307,11 @@
       -webkit-overflow-scrolling: touch;
       overflow-scrolling: touch;
     }
+    
+    /* Disable smooth scrolling on mobile for better performance */
+    html {
+      scroll-behavior: auto !important;
+    }
   }
 
   /* Optimize hero section and heavy animations */
@@ -297,8 +319,24 @@
   .hero-section,
   [class*="perspective"] {
     contain: layout style paint;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
+  }
+  
+  /* Only enable GPU acceleration on desktop */
+  @media (min-width: 769px) {
+    section,
+    .hero-section,
+    [class*="perspective"] {
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+    }
+  }
+  
+  /* Use content-visibility for better mobile scrolling performance */
+  @media (max-width: 768px) {
+    section:not(:first-of-type) {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 500px;
+    }
   }
 
   /* Optimize video loading */
@@ -325,6 +363,7 @@
   .glass {
     background: hsl(var(--card) / 0.7);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid hsl(var(--border) / 0.5);
   }
 
@@ -335,9 +374,20 @@
       hsl(222 47% 8% / 0.3) 100%
     );
     backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border: 1px solid hsl(var(--glow-primary) / 0.15);
     position: relative;
     overflow: hidden;
+  }
+  
+  /* Disable backdrop filters on mobile for better performance */
+  @media (max-width: 768px) {
+    .glass,
+    .glass-card {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background: hsl(var(--card) / 0.95) !important;
+    }
   }
 
   .glass-card::after {
@@ -472,6 +522,15 @@
     box-shadow: 
       inset 2px 2px 4px rgba(0, 0, 0, 0.5),
       inset -2px -2px 4px rgba(255, 255, 255, 0.05);
+  }
+  
+  /* Disable backdrop filter on mobile */
+  @media (max-width: 768px) {
+    .icon-circle {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background: rgba(0, 0, 0, 0.5) !important;
+    }
   }
 
   .icon-circle-glow {

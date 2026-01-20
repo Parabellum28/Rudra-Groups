@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
 import logo from "../../rudra-logo.png";
 
 const navLinks = [
@@ -18,21 +19,36 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     let ticking = false;
+    let scrollTimeout: NodeJS.Timeout | null = null;
+    const throttleDelay = isMobile ? 50 : 16; // Throttle more aggressively on mobile
+    
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setIsScrolled(window.scrollY > 20);
-          ticking = false;
-        });
-        ticking = true;
+      if (scrollTimeout) return;
+      
+      scrollTimeout = setTimeout(() => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            setIsScrolled(window.scrollY > 20);
+            ticking = false;
+          });
+          ticking = true;
+        }
+        scrollTimeout = null;
+      }, throttleDelay);
+    };
+    
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
       }
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -64,7 +80,9 @@ const Navbar = () => {
       <header
         className={`sticky top-0 z-50 w-full transition-all duration-300 ${
           isScrolled
-            ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-glow-sm"
+            ? isMobile
+              ? "bg-background/95 border-b border-border shadow-glow-sm"
+              : "bg-background/80 backdrop-blur-xl border-b border-border shadow-glow-sm"
             : "bg-background border-b border-transparent"
         }`}
       >

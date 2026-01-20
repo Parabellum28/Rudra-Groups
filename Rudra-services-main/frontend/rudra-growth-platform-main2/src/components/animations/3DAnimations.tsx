@@ -1,5 +1,6 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ReactNode, useRef, MouseEvent, useEffect } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Card3DProps {
   children: ReactNode;
@@ -133,9 +134,14 @@ export const ParallaxLayer = ({
   const y = useMotionValue(0);
   const rafId = useRef<number | null>(null);
   const ticking = useRef(false);
+  const isMobile = useIsMobile();
+  const cachedRect = useRef<DOMRect | null>(null);
+  const lastScrollY = useRef<number>(0);
+  const rectUpdateTimeout = useRef<number | null>(null);
 
   const handleScroll = () => {
-    if (!ref.current || ticking.current) return;
+    // Disable parallax on mobile
+    if (isMobile || !ref.current || ticking.current) return;
     
     ticking.current = true;
     rafId.current = requestAnimationFrame(() => {
@@ -144,7 +150,18 @@ export const ParallaxLayer = ({
         return;
       }
       
-      const rect = ref.current.getBoundingClientRect();
+      // Cache rect and only update when scroll position changes significantly
+      const currentScrollY = window.scrollY;
+      if (!cachedRect.current || Math.abs(currentScrollY - lastScrollY.current) > 50) {
+        cachedRect.current = ref.current.getBoundingClientRect();
+        lastScrollY.current = currentScrollY;
+      }
+
+      if (!cachedRect.current) {
+        cachedRect.current = ref.current.getBoundingClientRect();
+      }
+
+      const rect = cachedRect.current;
       const scrollProgress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
       const offset = (scrollProgress - 0.5) * 100 * speed;
       y.set(direction === "up" ? -offset : offset);
@@ -153,12 +170,46 @@ export const ParallaxLayer = ({
   };
 
   useEffect(() => {
+    // Periodically update cached rect to account for layout changes
+    let rectUpdateInterval: NodeJS.Timeout | null = null;
+    
+    if (!isMobile && ref.current) {
+      cachedRect.current = ref.current.getBoundingClientRect();
+      lastScrollY.current = window.scrollY;
+      
+      rectUpdateInterval = setInterval(() => {
+        if (rectUpdateTimeout.current) {
+          cancelAnimationFrame(rectUpdateTimeout.current);
+        }
+        rectUpdateTimeout.current = requestAnimationFrame(() => {
+          if (ref.current) {
+            cachedRect.current = ref.current.getBoundingClientRect();
+          }
+        });
+      }, 200);
+    }
+
     return () => {
       if (rafId.current) {
         cancelAnimationFrame(rafId.current);
       }
+      if (rectUpdateTimeout.current) {
+        cancelAnimationFrame(rectUpdateTimeout.current);
+      }
+      if (rectUpdateInterval) {
+        clearInterval(rectUpdateInterval);
+      }
     };
-  }, []);
+  }, [isMobile]);
+
+  // On mobile, render without parallax
+  if (isMobile) {
+    return (
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <motion.div

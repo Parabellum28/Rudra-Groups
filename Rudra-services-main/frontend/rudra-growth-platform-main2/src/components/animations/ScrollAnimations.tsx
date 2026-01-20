@@ -1,5 +1,6 @@
 import { useEffect, useRef, ReactNode } from "react";
 import { motion, useInView, useAnimation, Variants } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ScrollRevealProps {
   children: ReactNode;
@@ -116,20 +117,45 @@ export const Parallax = ({
 }: ParallaxProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const rafId = useRef<number | null>(null);
+  const isMobile = useIsMobile();
+  const cachedRect = useRef<DOMRect | null>(null);
+  const lastScrollY = useRef<number>(0);
+  const rectUpdateTimeout = useRef<number | null>(null);
 
   useEffect(() => {
+    // Disable parallax on mobile for better performance
+    if (isMobile) return;
+
     let ticking = false;
+    const throttleDelay = 16; // 60fps on desktop
+
+    // Cache rect and only update when scroll position changes significantly
+    const updateCachedRect = () => {
+      if (!ref.current) return;
+      cachedRect.current = ref.current.getBoundingClientRect();
+    };
 
     const updateTransform = () => {
       if (!ref.current) return;
-      const rect = ref.current.getBoundingClientRect();
+      
+      // Only recalculate rect if scroll position changed significantly (>50px)
+      const currentScrollY = window.scrollY;
+      if (!cachedRect.current || Math.abs(currentScrollY - lastScrollY.current) > 50) {
+        updateCachedRect();
+        lastScrollY.current = currentScrollY;
+      }
+
+      if (!cachedRect.current) {
+        updateCachedRect();
+      }
+
+      const rect = cachedRect.current!;
       const scrollProgress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
       const clampedProgress = Math.max(0, Math.min(1, scrollProgress));
       const translateY = (clampedProgress - 0.5) * offset;
       
       // Use transform for better performance
       ref.current.style.transform = `translate3d(0, ${translateY}px, 0)`;
-      ref.current.style.willChange = 'transform';
       ticking = false;
     };
 
@@ -140,16 +166,41 @@ export const Parallax = ({
       }
     };
 
+    // Initial rect cache
+    updateCachedRect();
+    lastScrollY.current = window.scrollY;
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll(); // Initial call
+
+    // Periodically update cached rect (every 200ms) to account for layout changes
+    const rectUpdateInterval = setInterval(() => {
+      if (rectUpdateTimeout.current) {
+        cancelAnimationFrame(rectUpdateTimeout.current);
+      }
+      rectUpdateTimeout.current = requestAnimationFrame(updateCachedRect);
+    }, 200);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       if (rafId.current) {
         cancelAnimationFrame(rafId.current);
       }
+      if (rectUpdateTimeout.current) {
+        cancelAnimationFrame(rectUpdateTimeout.current);
+      }
+      clearInterval(rectUpdateInterval);
     };
-  }, [offset]);
+  }, [offset, isMobile]);
+
+  // On mobile, render without parallax effects
+  if (isMobile) {
+    return (
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div ref={ref} className={className} style={{ willChange: 'transform' }}>

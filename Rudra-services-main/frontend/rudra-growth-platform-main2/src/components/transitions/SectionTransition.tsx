@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface SectionTransitionProps {
   sections: React.RefObject<HTMLElement>[];
@@ -14,6 +15,7 @@ const SectionTransition = ({ sections, enabled = true }: SectionTransitionProps)
   const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastScrollY = useRef<number>(0);
   const animationFrameRef = useRef<number | null>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!enabled || sections.length === 0) return;
@@ -21,8 +23,9 @@ const SectionTransition = ({ sections, enabled = true }: SectionTransitionProps)
     const observers: IntersectionObserver[] = [];
     const sectionVisibility = new Map<number, number>(); // Track visibility ratio for each section
 
-    // Track scroll direction with throttling
+    // Track scroll direction with throttling - more aggressive on mobile
     let scrollTimeout: NodeJS.Timeout | null = null;
+    const throttleDelay = isMobile ? 50 : 16; // 20fps on mobile, 60fps on desktop
     const handleScroll = () => {
       if (scrollTimeout) return;
       
@@ -31,7 +34,7 @@ const SectionTransition = ({ sections, enabled = true }: SectionTransitionProps)
         setScrollDirection(currentScrollY > lastScrollY.current ? "down" : "up");
         lastScrollY.current = currentScrollY;
         scrollTimeout = null;
-      }, 16); // ~60fps throttling
+      }, throttleDelay);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -117,7 +120,7 @@ const SectionTransition = ({ sections, enabled = true }: SectionTransitionProps)
           });
         },
         {
-          threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], // Multiple thresholds for smooth tracking
+          threshold: [0, 0.5, 1.0], // Reduced thresholds for better performance on mobile
           rootMargin: "-20% 0px -20% 0px", // Only trigger when section is in middle portion of viewport
         }
       );
@@ -143,8 +146,9 @@ const SectionTransition = ({ sections, enabled = true }: SectionTransitionProps)
   }, [sections, enabled]);
 
   // Calculate overlay opacity based on progress
+  // Disable blur on mobile for better performance
   const overlayOpacity = transitionProgress * 0.95;
-  const blurAmount = transitionProgress * 15;
+  const blurAmount = isMobile ? 0 : transitionProgress * 15; // No blur on mobile
   const scaleAmount = 1 + transitionProgress * 0.02; // Subtle scale effect
 
   return (
@@ -161,7 +165,7 @@ const SectionTransition = ({ sections, enabled = true }: SectionTransitionProps)
           }}
           className="fixed inset-0 z-[9999] pointer-events-none overflow-hidden"
           style={{
-            willChange: "opacity, transform",
+            willChange: isMobile ? "auto" : "opacity, transform", // Disable will-change on mobile
           }}
         >
           {/* Main Cross-Dissolve Overlay */}
@@ -180,7 +184,8 @@ const SectionTransition = ({ sections, enabled = true }: SectionTransitionProps)
                 hsl(var(--background) / ${overlayOpacity * 0.3}) 90%,
                 hsl(var(--background) / 0) 100%
               )`,
-              backdropFilter: `blur(${blurAmount}px)`,
+              backdropFilter: isMobile ? 'none' : `blur(${blurAmount}px)`,
+              WebkitBackdropFilter: isMobile ? 'none' : `blur(${blurAmount}px)`,
               transform: `scale(${scaleAmount})`,
               transformOrigin: scrollDirection === "down" ? "top center" : "bottom center",
             }}
