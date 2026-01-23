@@ -17,7 +17,7 @@ import { useState, useEffect } from "react";
 
 interface FloatingToy {
   id: number;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.ComponentType<any>;
   x: number;
   y: number;
   size: number;
@@ -127,7 +127,8 @@ const EnergyTechnology = () => {
             >
               <Icon 
                 className="text-primary drop-shadow-lg"
-                style={{ width: toy.size, height: toy.size }}
+                width={toy.size}
+                height={toy.size}
               />
               {/* Energy pulse effect */}
               <motion.div 
@@ -270,8 +271,3 @@ const EnergyTechnology = () => {
 };
 
 export default EnergyTechnology;
-
-
-
-
-
