@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { KineticText } from "@/components/animations/KineticText";
 import { FloatingElement, OrbitingElement, MorphingShape } from "@/components/animations/3DAnimations";
 import { useIsMobile } from "@/hooks/use-mobile";
-import bgVideo from "@/assets/bg-vid.mp4";
+import bgVideoWebM from "@/assets/bg-vid.webm";
+import bgVideoMP4 from "@/assets/bg-vid.mp4";
 
 const Interactive3DHero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -117,7 +118,7 @@ const Interactive3DHero = () => {
         transform: 'translateZ(0)', // GPU acceleration
       }}
     >
-      {/* Background video */}
+      {/* Background video - WebM preferred for better performance, MP4 as fallback */}
       <video
         ref={videoRef}
         autoPlay
@@ -128,7 +129,10 @@ const Interactive3DHero = () => {
         className="absolute inset-0 w-full h-full object-cover z-0"
         style={{ willChange: 'auto' }}
       >
-        <source src={bgVideo} type="video/mp4" />
+        {/* WebM format - better compression, smaller file size, less lag */}
+        <source src={bgVideoWebM} type="video/webm" />
+        {/* MP4 fallback for Safari and older browsers */}
+        <source src={bgVideoMP4} type="video/mp4" />
       </video>
       
       {/* Dark overlay for text readability */}
@@ -251,7 +255,6 @@ const Interactive3DHero = () => {
                   variant="hero"
                   delay={0.2}
                   className="inline-block whitespace-nowrap text-center"
-                  style={{ wordBreak: 'normal' }}
                 >
                   360° Business Consulting
                 </KineticText>
@@ -259,7 +262,6 @@ const Interactive3DHero = () => {
                   variant="hero"
                   delay={0.5}
                   className="text-primary inline-block whitespace-nowrap text-center"
-                  style={{ wordBreak: 'normal' }}
                 >
                   End-to-End Execution
                 </KineticText>
