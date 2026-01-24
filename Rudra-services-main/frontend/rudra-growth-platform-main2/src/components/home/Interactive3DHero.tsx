@@ -101,24 +101,18 @@ const Interactive3DHero = () => {
         transform: 'translateZ(0)', // GPU acceleration
       }}
     >
-      {/* Background video - disabled on mobile for better performance */}
-      {!isMobile && (
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          className="absolute inset-0 w-full h-full object-cover z-0"
-          style={{ willChange: 'auto' }}
-        >
-          <source src={bgVideo} type="video/mp4" />
-        </video>
-      )}
-      {/* Static gradient background on mobile */}
-      {isMobile && (
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/10 to-accent/10 z-0" />
-      )}
+      {/* Background video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        className="absolute inset-0 w-full h-full object-cover z-0"
+        style={{ willChange: 'auto' }}
+      >
+        <source src={bgVideo} type="video/mp4" />
+      </video>
       
       {/* Dark overlay for text readability */}
       <div className="absolute inset-0 bg-background/40 z-[1]" />
@@ -262,7 +256,7 @@ const Interactive3DHero = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
             style={{ transform: "translateZ(30px)" }}
-            className="font-body text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-muted-foreground mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed font-light text-center px-4"
+            className="font-body text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed font-light text-center px-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
           >
             Rudra Groups delivers strategy, branding, expansion, infrastructure, and automation solutions 
             with clarity and confidence. Your trusted partner for complete business transformation.
