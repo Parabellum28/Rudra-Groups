@@ -10,6 +10,7 @@ import bgVideo from "@/assets/bg-vid.mp4";
 
 const Interactive3DHero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
   const isMobile = useIsMobile();
   
@@ -65,6 +66,21 @@ const Interactive3DHero = () => {
     };
   }, []);
 
+  // Ensure video plays on mobile devices
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      // Attempt to play the video
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
+          // Autoplay was prevented, but video should still be ready
+          console.log('Video autoplay prevented:', error);
+        });
+      }
+    }
+  }, []);
+
   const handleMouseLeave = () => {
     mouseX.set(0);
     mouseY.set(0);
@@ -103,11 +119,12 @@ const Interactive3DHero = () => {
     >
       {/* Background video */}
       <video
+        ref={videoRef}
         autoPlay
         loop
         muted
         playsInline
-        preload="metadata"
+        preload="auto"
         className="absolute inset-0 w-full h-full object-cover z-0"
         style={{ willChange: 'auto' }}
       >

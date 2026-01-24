@@ -271,11 +271,6 @@
       will-change: auto;
     }
     
-    /* Disable heavy effects on mobile */
-    video {
-      display: none !important;
-    }
-    
     /* Disable ALL blur effects on mobile for better performance */
     [class*="blur-"],
     * {
