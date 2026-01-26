@@ -71,7 +71,7 @@ const Interactive3DHero = () => {
 
   // Generate small bubbles
   const [smallBubbles] = useState(() => {
-    const count = isMobile ? 80 : 210;
+    const count = isMobile ? 43 : 210;
     return Array.from({ length: count }, (_, i) => ({
       id: `small-${i}`,
       x: Math.random() * 100,
@@ -85,7 +85,7 @@ const Interactive3DHero = () => {
 
   // Generate medium bubbles
   const [mediumBubbles] = useState(() => {
-    const count = isMobile ? 43 : 105;
+    const count = isMobile ? 23 : 105;
     return Array.from({ length: count }, (_, i) => ({
       id: `medium-${i}`,
       x: Math.random() * 100,
@@ -99,7 +99,7 @@ const Interactive3DHero = () => {
 
   // Generate large bubbles
   const [largeBubbles] = useState(() => {
-    const count = isMobile ? 21 : 56;
+    const count = isMobile ? 11 : 56;
     return Array.from({ length: count }, (_, i) => ({
       id: `large-${i}`,
       x: Math.random() * 100,
@@ -113,7 +113,7 @@ const Interactive3DHero = () => {
 
   // Generate extra large floating orbs/bubbles
   const [floatingOrbs] = useState(() => {
-    const orbCount = isMobile ? 6 : 18;
+    const orbCount = isMobile ? 3 : 18;
     return Array.from({ length: orbCount }, (_, i) => ({
       id: `orb-${i}`,
       x: Math.random() * 100,
