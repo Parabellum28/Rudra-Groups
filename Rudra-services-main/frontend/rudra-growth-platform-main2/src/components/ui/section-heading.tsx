@@ -44,23 +44,22 @@ const SectionHeading = ({
       )}
       <h2
         className={cn(
-          "font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-3 sm:mb-4",
-          align === "center" && "sm:whitespace-nowrap",
+          "font-display text-base sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-3 sm:mb-4 whitespace-nowrap overflow-hidden",
           variant === "default" ? "text-foreground" : "text-primary-foreground"
         )}
         style={{ 
-          wordBreak: "normal",
+          wordBreak: "keep-all",
           overflowWrap: "normal",
           hyphens: "none",
           lineHeight: "1.2"
         }}
       >
         {kineticTitle ? (
-          <KineticText variant={kineticVariant} delay={0.1} as="span" className="inline-block whitespace-normal sm:whitespace-nowrap">
+          <KineticText variant={kineticVariant} delay={0.1} as="span" className="inline-block whitespace-nowrap">
             {title}
           </KineticText>
         ) : (
-          <span className="whitespace-normal sm:whitespace-nowrap">{title}</span>
+          <span className="whitespace-nowrap">{title}</span>
         )}
       </h2>
       {description && (

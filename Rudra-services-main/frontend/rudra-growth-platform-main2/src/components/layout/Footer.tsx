@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail } from "lucide-react";
+import { Phone, Mail, Instagram, Twitter, Linkedin } from "lucide-react";
 import logo from "../../rudra-logo.png";
 
 const Footer = () => {
@@ -82,7 +82,7 @@ const Footer = () => {
             <h4 className="font-display text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">
               Contact
             </h4>
-            <ul className="space-y-3 font-body text-sm">
+            <ul className="space-y-3 font-body text-sm mb-6">
               <li>
                 <a
                   href="tel:+919880550827"
@@ -102,6 +102,42 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
+            
+            {/* Social Media */}
+            <div>
+              <h4 className="font-display text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">
+                Follow Us
+              </h4>
+              <div className="flex items-center gap-3 sm:gap-4">
+                <a
+                  href="https://www.instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-background/80 border border-border flex items-center justify-center text-muted-foreground hover:text-pink-500 hover:border-pink-500/50 active:scale-95 transition-all duration-300 touch-manipulation"
+                  aria-label="Visit our Instagram page"
+                >
+                  <Instagram className="w-5 h-5 sm:w-5 sm:h-5" />
+                </a>
+                <a
+                  href="https://twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-background/80 border border-border flex items-center justify-center text-muted-foreground hover:text-blue-400 hover:border-blue-400/50 active:scale-95 transition-all duration-300 touch-manipulation"
+                  aria-label="Visit our Twitter page"
+                >
+                  <Twitter className="w-5 h-5 sm:w-5 sm:h-5" />
+                </a>
+                <a
+                  href="https://www.linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-background/80 border border-border flex items-center justify-center text-muted-foreground hover:text-blue-600 hover:border-blue-600/50 active:scale-95 transition-all duration-300 touch-manipulation"
+                  aria-label="Visit our LinkedIn page"
+                >
+                  <Linkedin className="w-5 h-5 sm:w-5 sm:h-5" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

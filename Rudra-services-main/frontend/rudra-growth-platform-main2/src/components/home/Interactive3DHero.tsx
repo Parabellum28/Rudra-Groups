@@ -6,12 +6,9 @@ import { Button } from "@/components/ui/button";
 import { KineticText } from "@/components/animations/KineticText";
 import { FloatingElement, OrbitingElement, MorphingShape } from "@/components/animations/3DAnimations";
 import { useIsMobile } from "@/hooks/use-mobile";
-import bgVideoWebM from "@/assets/bg-vid.webm";
-import bgVideoMP4 from "@/assets/bg-vid.mp4";
 
 const Interactive3DHero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
   const isMobile = useIsMobile();
   
@@ -67,36 +64,64 @@ const Interactive3DHero = () => {
     };
   }, []);
 
-  // Ensure video plays on mobile devices
-  useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-      // Attempt to play the video
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          // Autoplay was prevented, but video should still be ready
-          console.log('Video autoplay prevented:', error);
-        });
-      }
-    }
-  }, []);
-
   const handleMouseLeave = () => {
     mouseX.set(0);
     mouseY.set(0);
   };
 
-  // Generate floating particles - significantly reduced on mobile
-  const [particles] = useState(() => {
-    const particleCount = isMobile ? 3 : 10; // Only 3 particles on mobile
-    return Array.from({ length: particleCount }, (_, i) => ({
-      id: i,
+  // Generate small bubbles - MANY MORE
+  const [smallBubbles] = useState(() => {
+    const count = isMobile ? 150 : 300;
+    return Array.from({ length: count }, (_, i) => ({
+      id: `small-${i}`,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 4 + 2,
-      duration: Math.random() * 10 + 10,
+      size: Math.random() * 4 + 2, // 2-6px
+      duration: Math.random() * 6 + 2,
       delay: Math.random() * 5,
+      opacity: Math.random() * 0.3 + 0.1,
+    }));
+  });
+
+  // Generate medium bubbles - MANY MORE
+  const [mediumBubbles] = useState(() => {
+    const count = isMobile ? 80 : 150;
+    return Array.from({ length: count }, (_, i) => ({
+      id: `medium-${i}`,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 20 + 10, // 10-30px
+      duration: Math.random() * 8 + 4,
+      delay: Math.random() * 4,
+      opacity: Math.random() * 0.25 + 0.1,
+    }));
+  });
+
+  // Generate large bubbles - MANY MORE
+  const [largeBubbles] = useState(() => {
+    const count = isMobile ? 40 : 80;
+    return Array.from({ length: count }, (_, i) => ({
+      id: `large-${i}`,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 60 + 40, // 40-100px
+      duration: Math.random() * 10 + 6,
+      delay: Math.random() * 3,
+      opacity: Math.random() * 0.15 + 0.05,
+    }));
+  });
+
+  // Generate extra large floating orbs/bubbles - MORE
+  const [floatingOrbs] = useState(() => {
+    const orbCount = isMobile ? 12 : 25;
+    return Array.from({ length: orbCount }, (_, i) => ({
+      id: `orb-${i}`,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 250 + 150, // 150-400px
+      duration: Math.random() * 12 + 8,
+      delay: Math.random() * 3,
+      opacity: Math.random() * 0.1 + 0.03,
     }));
   });
   
@@ -118,25 +143,8 @@ const Interactive3DHero = () => {
         transform: 'translateZ(0)', // GPU acceleration
       }}
     >
-      {/* Background video - WebM preferred for better performance, MP4 as fallback */}
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        className="absolute inset-0 w-full h-full object-cover z-0"
-        style={{ willChange: 'auto' }}
-      >
-        {/* WebM format - better compression, smaller file size, less lag */}
-        <source src={bgVideoWebM} type="video/webm" />
-        {/* MP4 fallback for Safari and older browsers */}
-        <source src={bgVideoMP4} type="video/mp4" />
-      </video>
-      
-      {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-background/40 z-[1]" />
+      {/* Background gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/90 z-[1]" />
       
       {/* Animated gradient background with parallax - simplified on mobile */}
       {!isMobile ? (
@@ -151,30 +159,115 @@ const Interactive3DHero = () => {
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-accent/5 z-[2]" />
       )}
-      
-      {/* Floating 3D particles */}
-      {particles.map((particle) => (
+
+      {/* Extra large floating orbs/bubbles */}
+      {floatingOrbs.map((orb) => (
         <motion.div
-          key={particle.id}
-          className="absolute rounded-full bg-primary/10 blur-sm z-[2]"
+          key={orb.id}
+          className="absolute rounded-full bg-primary/20 blur-3xl z-[2] pointer-events-none"
           style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            width: `${particle.size}px`,
-            height: `${particle.size}px`,
-            x: layer2X,
-            y: layer2Y,
-            transformStyle: "preserve-3d",
+            left: `${orb.x}%`,
+            top: `${orb.y}%`,
+            width: `${orb.size}px`,
+            height: `${orb.size}px`,
+            marginLeft: `-${orb.size / 2}px`,
+            marginTop: `-${orb.size / 2}px`,
+            opacity: orb.opacity,
           }}
           animate={{
-            y: [0, -30, 0],
-            x: [0, Math.random() * 20 - 10, 0],
-            scale: [1, 1.5, 1],
-            opacity: [0.3, 0.6, 0.3],
+            scale: [1, 1.3, 1],
+            x: [0, Math.random() * 100 - 50, 0],
+            y: [0, Math.random() * 80 - 40, 0],
+            opacity: [orb.opacity, orb.opacity * 1.5, orb.opacity],
           }}
           transition={{
-            duration: particle.duration,
-            delay: particle.delay,
+            duration: orb.duration,
+            delay: orb.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+
+      {/* Large bubbles */}
+      {largeBubbles.map((bubble) => (
+        <motion.div
+          key={bubble.id}
+          className="absolute rounded-full bg-primary/25 blur-md z-[2] pointer-events-none"
+          style={{
+            left: `${bubble.x}%`,
+            top: `${bubble.y}%`,
+            width: `${bubble.size}px`,
+            height: `${bubble.size}px`,
+            marginLeft: `-${bubble.size / 2}px`,
+            marginTop: `-${bubble.size / 2}px`,
+            opacity: bubble.opacity,
+          }}
+          animate={{
+            y: [0, -50, 0],
+            x: [0, Math.random() * 40 - 20, 0],
+            scale: [1, 1.4, 1],
+            opacity: [bubble.opacity * 0.6, bubble.opacity, bubble.opacity * 0.6],
+          }}
+          transition={{
+            duration: bubble.duration,
+            delay: bubble.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+
+      {/* Medium bubbles */}
+      {mediumBubbles.map((bubble) => (
+        <motion.div
+          key={bubble.id}
+          className="absolute rounded-full bg-primary/30 blur-sm z-[2] pointer-events-none"
+          style={{
+            left: `${bubble.x}%`,
+            top: `${bubble.y}%`,
+            width: `${bubble.size}px`,
+            height: `${bubble.size}px`,
+            marginLeft: `-${bubble.size / 2}px`,
+            marginTop: `-${bubble.size / 2}px`,
+            opacity: bubble.opacity,
+          }}
+          animate={{
+            y: [0, -45, 0],
+            x: [0, Math.random() * 35 - 17.5, 0],
+            scale: [1, 1.5, 1],
+            opacity: [bubble.opacity * 0.5, bubble.opacity, bubble.opacity * 0.5],
+          }}
+          transition={{
+            duration: bubble.duration,
+            delay: bubble.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+      
+      {/* Small bubbles */}
+      {smallBubbles.map((bubble) => (
+        <motion.div
+          key={bubble.id}
+          className="absolute rounded-full bg-primary/40 z-[2] pointer-events-none"
+          style={{
+            left: `${bubble.x}%`,
+            top: `${bubble.y}%`,
+            width: `${bubble.size}px`,
+            height: `${bubble.size}px`,
+            opacity: bubble.opacity,
+          }}
+          animate={{
+            y: [0, -40, 0],
+            x: [0, Math.random() * 30 - 15, 0],
+            scale: [1, 1.6, 1],
+            opacity: [bubble.opacity * 0.4, bubble.opacity, bubble.opacity * 0.4],
+          }}
+          transition={{
+            duration: bubble.duration,
+            delay: bubble.delay,
             repeat: Infinity,
             ease: "easeInOut",
           }}
