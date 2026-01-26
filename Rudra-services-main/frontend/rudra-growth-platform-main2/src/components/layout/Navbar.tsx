@@ -30,13 +30,13 @@ const Navbar = () => {
       if (scrollTimeout) return;
       
       scrollTimeout = setTimeout(() => {
-        if (!ticking) {
-          window.requestAnimationFrame(() => {
-            setIsScrolled(window.scrollY > 20);
-            ticking = false;
-          });
-          ticking = true;
-        }
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
         scrollTimeout = null;
       }, throttleDelay);
     };

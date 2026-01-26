@@ -31,22 +31,22 @@ const AnimatedCounter = ({
     // If in view, start animation
     if (inView && !hasAnimated) {
       setHasAnimated(true);
-      const duration = 2000;
-      const steps = 60;
-      const stepValue = value / steps;
-      let current = 0;
+    const duration = 2000;
+    const steps = 60;
+    const stepValue = value / steps;
+    let current = 0;
 
-      const timer = setInterval(() => {
-        current += stepValue;
-        if (current >= value) {
-          setCount(value);
-          clearInterval(timer);
-        } else {
-          setCount(Math.floor(current));
-        }
-      }, duration / steps);
+    const timer = setInterval(() => {
+      current += stepValue;
+      if (current >= value) {
+        setCount(value);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(current));
+      }
+    }, duration / steps);
 
-      return () => clearInterval(timer);
+    return () => clearInterval(timer);
     }
     
     // Fallback: if element is visible but animation hasn't started, show value after a delay
@@ -86,11 +86,11 @@ const StatsSection = () => {
               ease: [0.16, 1, 0.3, 1],
             }
           : {
-              duration: 0.7,
-              ease: [0.16, 1, 0.3, 1],
-              type: "spring",
-              stiffness: 100,
-              damping: 15,
+        duration: 0.7,
+        ease: [0.16, 1, 0.3, 1],
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
             }
       }
       className="py-16 lg:py-20 relative overflow-hidden"
@@ -117,11 +117,11 @@ const StatsSection = () => {
                   {/* Number */}
                   <div className="font-display text-4xl lg:text-5xl xl:text-6xl font-bold mb-2">
                     <span className="text-gradient">
-                      <AnimatedCounter 
-                        value={stat.number} 
-                        suffix={stat.suffix} 
-                        inView={isInView} 
-                      />
+                    <AnimatedCounter 
+                      value={stat.number} 
+                      suffix={stat.suffix} 
+                      inView={isInView} 
+                    />
                     </span>
                   </div>
                   

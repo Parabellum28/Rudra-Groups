@@ -222,15 +222,15 @@ const CTASection = () => {
                       whileHover={{ scale: 1.05, rotateY: -5 }} 
                       whileTap={{ scale: 0.98 }}
                     >
-                      <Button 
-                        asChild 
-                        size="lg" 
-                        variant="outline" 
-                        className="border-glow-primary/30 bg-card/50 hover:bg-card hover:border-glow-primary/60 hover:shadow-glow-sm text-foreground transition-all duration-300"
-                      >
-                        <Link to="/services">Explore Our Services</Link>
-                      </Button>
-                    </motion.div>
+                    <Button 
+                      asChild 
+                      size="lg" 
+                      variant="outline" 
+                      className="border-glow-primary/30 bg-card/50 hover:bg-card hover:border-glow-primary/60 hover:shadow-glow-sm text-foreground transition-all duration-300"
+                    >
+                      <Link to="/services">Explore Our Services</Link>
+                    </Button>
+                  </motion.div>
                   )}
                 </motion.div>
 

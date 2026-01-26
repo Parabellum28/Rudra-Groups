@@ -258,13 +258,15 @@ const Interactive3DHero = () => {
                 >
                   360° Business Consulting
                 </KineticText>
-                <KineticText
-                  variant="hero"
-                  delay={0.5}
-                  className="text-primary inline-block whitespace-nowrap text-center"
-                >
-                  End-to-End Execution
-                </KineticText>
+                <span className="inline-block whitespace-nowrap text-center" style={{ color: '#00d4ff' }}>
+                  <KineticText
+                    variant="hero"
+                    delay={0.5}
+                    className="inline-block"
+                  >
+                    End-to-End Execution
+                  </KineticText>
+                </span>
               </div>
             </h1>
           </motion.div>
@@ -365,4 +367,3 @@ const Interactive3DHero = () => {
 };
 
 export default Interactive3DHero;
-

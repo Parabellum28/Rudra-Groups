@@ -49,12 +49,12 @@ export const SectionWrapper = ({
               ease: [0.16, 1, 0.3, 1],
             }
           : {
-              duration: 0.7,
-              delay,
-              ease: [0.16, 1, 0.3, 1], // Custom easing for smooth pop-in
-              type: "spring",
-              stiffness: 100,
-              damping: 15,
+        duration: 0.7,
+        delay,
+        ease: [0.16, 1, 0.3, 1], // Custom easing for smooth pop-in
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
             }
       }
       className={className}
