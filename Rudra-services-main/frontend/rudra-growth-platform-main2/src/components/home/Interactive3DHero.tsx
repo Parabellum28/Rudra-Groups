@@ -69,9 +69,9 @@ const Interactive3DHero = () => {
     mouseY.set(0);
   };
 
-  // Generate small bubbles
+  // Generate small bubbles - Disabled on mobile
   const [smallBubbles] = useState(() => {
-    const count = isMobile ? 7 : 210;
+    const count = isMobile ? 0 : 210;
     return Array.from({ length: count }, (_, i) => ({
       id: `small-${i}`,
       x: Math.random() * 100,
@@ -83,9 +83,9 @@ const Interactive3DHero = () => {
     }));
   });
 
-  // Generate medium bubbles
+  // Generate medium bubbles - Disabled on mobile
   const [mediumBubbles] = useState(() => {
-    const count = isMobile ? 3 : 105;
+    const count = isMobile ? 0 : 105;
     return Array.from({ length: count }, (_, i) => ({
       id: `medium-${i}`,
       x: Math.random() * 100,
@@ -97,9 +97,9 @@ const Interactive3DHero = () => {
     }));
   });
 
-  // Generate large bubbles
+  // Generate large bubbles - Disabled on mobile
   const [largeBubbles] = useState(() => {
-    const count = isMobile ? 1 : 56;
+    const count = isMobile ? 0 : 56;
     return Array.from({ length: count }, (_, i) => ({
       id: `large-${i}`,
       x: Math.random() * 100,
