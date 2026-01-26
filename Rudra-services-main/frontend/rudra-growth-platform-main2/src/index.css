@@ -318,6 +318,39 @@
     html {
       scroll-behavior: auto !important;
     }
+
+    /* Additional mobile performance optimizations */
+    /* Reduce repaints and reflows */
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Optimize bubble animations on mobile */
+    [class*="rounded-full"][class*="bg-primary"] {
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    /* Reduce motion for better performance */
+    @media (prefers-reduced-motion: no-preference) {
+      [class*="rounded-full"][class*="bg-primary"] {
+        animation-duration: 2s !important;
+      }
+    }
+
+    /* Limit concurrent animations */
+    section > * {
+      contain: layout style paint;
+    }
+
+    /* Optimize rendering */
+    body, html {
+      text-rendering: optimizeSpeed;
+      -webkit-font-smoothing: antialiased;
+    }
   }
 
   /* Optimize hero section and heavy animations */

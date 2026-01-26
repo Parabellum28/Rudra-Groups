@@ -69,9 +69,9 @@ const Interactive3DHero = () => {
     mouseY.set(0);
   };
 
-  // Generate small bubbles
+  // Generate small bubbles - Reduced by 21 for mobile performance
   const [smallBubbles] = useState(() => {
-    const count = isMobile ? 22 : 210;
+    const count = isMobile ? 12 : 210;
     return Array.from({ length: count }, (_, i) => ({
       id: `small-${i}`,
       x: Math.random() * 100,
@@ -83,9 +83,9 @@ const Interactive3DHero = () => {
     }));
   });
 
-  // Generate medium bubbles
+  // Generate medium bubbles - Reduced for mobile performance
   const [mediumBubbles] = useState(() => {
-    const count = isMobile ? 12 : 105;
+    const count = isMobile ? 5 : 105;
     return Array.from({ length: count }, (_, i) => ({
       id: `medium-${i}`,
       x: Math.random() * 100,
@@ -97,9 +97,9 @@ const Interactive3DHero = () => {
     }));
   });
 
-  // Generate large bubbles
+  // Generate large bubbles - Reduced for mobile performance
   const [largeBubbles] = useState(() => {
-    const count = isMobile ? 6 : 56;
+    const count = isMobile ? 2 : 56;
     return Array.from({ length: count }, (_, i) => ({
       id: `large-${i}`,
       x: Math.random() * 100,
@@ -111,7 +111,7 @@ const Interactive3DHero = () => {
     }));
   });
 
-  // Generate extra large floating orbs/bubbles
+  // Generate extra large floating orbs/bubbles - Reduced for mobile performance
   const [floatingOrbs] = useState(() => {
     const orbCount = isMobile ? 1 : 18;
     return Array.from({ length: orbCount }, (_, i) => ({
@@ -160,11 +160,11 @@ const Interactive3DHero = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-accent/5 z-[2]" />
       )}
 
-      {/* Extra large floating orbs/bubbles */}
+      {/* Extra large floating orbs/bubbles - Optimized for mobile */}
       {floatingOrbs.map((orb) => (
         <motion.div
           key={orb.id}
-          className="absolute rounded-full bg-primary/20 blur-3xl z-[2] pointer-events-none"
+          className={`absolute rounded-full bg-primary/20 z-[2] pointer-events-none ${isMobile ? 'blur-2xl' : 'blur-3xl'}`}
           style={{
             left: `${orb.x}%`,
             top: `${orb.y}%`,
@@ -173,15 +173,19 @@ const Interactive3DHero = () => {
             marginLeft: `-${orb.size / 2}px`,
             marginTop: `-${orb.size / 2}px`,
             opacity: orb.opacity,
+            willChange: isMobile ? 'auto' : 'transform, opacity',
           }}
-          animate={{
+          animate={isMobile ? {
+            scale: [1, 1.2, 1],
+            opacity: [orb.opacity, orb.opacity * 1.3, orb.opacity],
+          } : {
             scale: [1, 1.3, 1],
             x: [0, Math.random() * 100 - 50, 0],
             y: [0, Math.random() * 80 - 40, 0],
             opacity: [orb.opacity, orb.opacity * 1.5, orb.opacity],
           }}
           transition={{
-            duration: orb.duration,
+            duration: isMobile ? orb.duration * 1.5 : orb.duration,
             delay: orb.delay,
             repeat: Infinity,
             ease: "easeInOut",
@@ -189,11 +193,11 @@ const Interactive3DHero = () => {
         />
       ))}
 
-      {/* Large bubbles */}
+      {/* Large bubbles - Optimized for mobile */}
       {largeBubbles.map((bubble) => (
         <motion.div
           key={bubble.id}
-          className="absolute rounded-full bg-primary/25 blur-md z-[2] pointer-events-none"
+          className={`absolute rounded-full bg-primary/25 z-[2] pointer-events-none ${isMobile ? '' : 'blur-md'}`}
           style={{
             left: `${bubble.x}%`,
             top: `${bubble.y}%`,
@@ -202,15 +206,19 @@ const Interactive3DHero = () => {
             marginLeft: `-${bubble.size / 2}px`,
             marginTop: `-${bubble.size / 2}px`,
             opacity: bubble.opacity,
+            willChange: isMobile ? 'auto' : 'transform, opacity',
           }}
-          animate={{
+          animate={isMobile ? {
+            y: [0, -40, 0],
+            opacity: [bubble.opacity * 0.7, bubble.opacity, bubble.opacity * 0.7],
+          } : {
             y: [0, -50, 0],
             x: [0, Math.random() * 40 - 20, 0],
             scale: [1, 1.4, 1],
             opacity: [bubble.opacity * 0.6, bubble.opacity, bubble.opacity * 0.6],
           }}
           transition={{
-            duration: bubble.duration,
+            duration: isMobile ? bubble.duration * 1.5 : bubble.duration,
             delay: bubble.delay,
             repeat: Infinity,
             ease: "easeInOut",
@@ -218,11 +226,11 @@ const Interactive3DHero = () => {
         />
       ))}
 
-      {/* Medium bubbles */}
+      {/* Medium bubbles - Optimized for mobile */}
       {mediumBubbles.map((bubble) => (
         <motion.div
           key={bubble.id}
-          className="absolute rounded-full bg-primary/30 blur-sm z-[2] pointer-events-none"
+          className={`absolute rounded-full bg-primary/30 z-[2] pointer-events-none ${isMobile ? '' : 'blur-sm'}`}
           style={{
             left: `${bubble.x}%`,
             top: `${bubble.y}%`,
@@ -231,15 +239,19 @@ const Interactive3DHero = () => {
             marginLeft: `-${bubble.size / 2}px`,
             marginTop: `-${bubble.size / 2}px`,
             opacity: bubble.opacity,
+            willChange: isMobile ? 'auto' : 'transform, opacity',
           }}
-          animate={{
+          animate={isMobile ? {
+            y: [0, -35, 0],
+            opacity: [bubble.opacity * 0.6, bubble.opacity, bubble.opacity * 0.6],
+          } : {
             y: [0, -45, 0],
             x: [0, Math.random() * 35 - 17.5, 0],
             scale: [1, 1.5, 1],
             opacity: [bubble.opacity * 0.5, bubble.opacity, bubble.opacity * 0.5],
           }}
           transition={{
-            duration: bubble.duration,
+            duration: isMobile ? bubble.duration * 1.5 : bubble.duration,
             delay: bubble.delay,
             repeat: Infinity,
             ease: "easeInOut",
@@ -247,7 +259,7 @@ const Interactive3DHero = () => {
         />
       ))}
       
-      {/* Small bubbles */}
+      {/* Small bubbles - Optimized for mobile */}
       {smallBubbles.map((bubble) => (
         <motion.div
           key={bubble.id}
@@ -258,15 +270,19 @@ const Interactive3DHero = () => {
             width: `${bubble.size}px`,
             height: `${bubble.size}px`,
             opacity: bubble.opacity,
+            willChange: isMobile ? 'auto' : 'transform, opacity',
           }}
-          animate={{
+          animate={isMobile ? {
+            y: [0, -30, 0],
+            opacity: [bubble.opacity * 0.5, bubble.opacity, bubble.opacity * 0.5],
+          } : {
             y: [0, -40, 0],
             x: [0, Math.random() * 30 - 15, 0],
             scale: [1, 1.6, 1],
             opacity: [bubble.opacity * 0.4, bubble.opacity, bubble.opacity * 0.4],
           }}
           transition={{
-            duration: bubble.duration,
+            duration: isMobile ? bubble.duration * 1.5 : bubble.duration,
             delay: bubble.delay,
             repeat: Infinity,
             ease: "easeInOut",
