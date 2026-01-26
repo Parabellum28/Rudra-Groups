@@ -69,9 +69,9 @@ const Interactive3DHero = () => {
     mouseY.set(0);
   };
 
-  // Generate small bubbles - Disabled on mobile
+  // Generate small bubbles
   const [smallBubbles] = useState(() => {
-    const count = isMobile ? 0 : 210;
+    const count = isMobile ? 10 : 210;
     return Array.from({ length: count }, (_, i) => ({
       id: `small-${i}`,
       x: Math.random() * 100,
@@ -83,9 +83,9 @@ const Interactive3DHero = () => {
     }));
   });
 
-  // Generate medium bubbles - Disabled on mobile
+  // Generate medium bubbles
   const [mediumBubbles] = useState(() => {
-    const count = isMobile ? 0 : 105;
+    const count = isMobile ? 4 : 105;
     return Array.from({ length: count }, (_, i) => ({
       id: `medium-${i}`,
       x: Math.random() * 100,
@@ -97,9 +97,9 @@ const Interactive3DHero = () => {
     }));
   });
 
-  // Generate large bubbles - Disabled on mobile
+  // Generate large bubbles
   const [largeBubbles] = useState(() => {
-    const count = isMobile ? 0 : 56;
+    const count = isMobile ? 2 : 56;
     return Array.from({ length: count }, (_, i) => ({
       id: `large-${i}`,
       x: Math.random() * 100,
@@ -160,7 +160,7 @@ const Interactive3DHero = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-accent/5 z-[2]" />
       )}
 
-      {/* Extra large floating orbs/bubbles - Disabled on mobile */}
+      {/* Extra large floating orbs/bubbles - Desktop only */}
       {!isMobile && floatingOrbs.map((orb) => (
         <motion.div
           key={orb.id}
@@ -193,8 +193,8 @@ const Interactive3DHero = () => {
         />
       ))}
 
-      {/* Large bubbles - Disabled on mobile */}
-      {!isMobile && largeBubbles.map((bubble) => (
+      {/* Large bubbles */}
+      {largeBubbles.map((bubble) => (
         <motion.div
           key={bubble.id}
           className={`absolute rounded-full bg-primary/25 z-[2] pointer-events-none ${isMobile ? '' : 'blur-md'}`}
@@ -226,8 +226,8 @@ const Interactive3DHero = () => {
         />
       ))}
 
-      {/* Medium bubbles - Disabled on mobile */}
-      {!isMobile && mediumBubbles.map((bubble) => (
+      {/* Medium bubbles */}
+      {mediumBubbles.map((bubble) => (
         <motion.div
           key={bubble.id}
           className={`absolute rounded-full bg-primary/30 z-[2] pointer-events-none ${isMobile ? '' : 'blur-sm'}`}
@@ -259,8 +259,8 @@ const Interactive3DHero = () => {
         />
       ))}
       
-      {/* Small bubbles - Disabled on mobile */}
-      {!isMobile && smallBubbles.map((bubble) => (
+      {/* Small bubbles */}
+      {smallBubbles.map((bubble) => (
         <motion.div
           key={bubble.id}
           className="absolute rounded-full bg-primary/40 z-[2] pointer-events-none"

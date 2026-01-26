@@ -99,6 +99,7 @@ const WhatWeDoSection = () => {
             description="From strategy to execution, we provide end-to-end services that drive sustainable growth for your business."
             kineticTitle={true}
             kineticVariant="section"
+            className="[&_h2]:text-[15px] [&_h2]:lg:text-[45px]"
           />
         </motion.div>
 
