@@ -160,8 +160,8 @@ const Interactive3DHero = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-accent/5 z-[2]" />
       )}
 
-      {/* Extra large floating orbs/bubbles - Optimized for mobile */}
-      {floatingOrbs.map((orb) => (
+      {/* Extra large floating orbs/bubbles - Disabled on mobile */}
+      {!isMobile && floatingOrbs.map((orb) => (
         <motion.div
           key={orb.id}
           className={`absolute rounded-full bg-primary/20 z-[2] pointer-events-none ${isMobile ? 'blur-2xl' : 'blur-3xl'}`}
@@ -193,8 +193,8 @@ const Interactive3DHero = () => {
         />
       ))}
 
-      {/* Large bubbles - Optimized for mobile */}
-      {largeBubbles.map((bubble) => (
+      {/* Large bubbles - Disabled on mobile */}
+      {!isMobile && largeBubbles.map((bubble) => (
         <motion.div
           key={bubble.id}
           className={`absolute rounded-full bg-primary/25 z-[2] pointer-events-none ${isMobile ? '' : 'blur-md'}`}
@@ -226,8 +226,8 @@ const Interactive3DHero = () => {
         />
       ))}
 
-      {/* Medium bubbles - Optimized for mobile */}
-      {mediumBubbles.map((bubble) => (
+      {/* Medium bubbles - Disabled on mobile */}
+      {!isMobile && mediumBubbles.map((bubble) => (
         <motion.div
           key={bubble.id}
           className={`absolute rounded-full bg-primary/30 z-[2] pointer-events-none ${isMobile ? '' : 'blur-sm'}`}
@@ -259,8 +259,8 @@ const Interactive3DHero = () => {
         />
       ))}
       
-      {/* Small bubbles - Optimized for mobile */}
-      {smallBubbles.map((bubble) => (
+      {/* Small bubbles - Disabled on mobile */}
+      {!isMobile && smallBubbles.map((bubble) => (
         <motion.div
           key={bubble.id}
           className="absolute rounded-full bg-primary/40 z-[2] pointer-events-none"
