@@ -290,10 +290,10 @@ const Contact = () => {
                       Phone
                     </h3>
                     <a
-                      href="tel:+919880550827"
+                      href="tel:+919187500287"
                       className="font-body text-lg text-primary hover:underline"
                     >
-                      +91 98805 50827
+                      +91 91875 00287
                     </a>
                   </div>
                 </div>
@@ -354,7 +354,7 @@ const Contact = () => {
                 </h3>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button asChild className="flex-1">
-                    <a href="tel:+919880550827">
+                    <a href="tel:+919187500287">
                       <Phone className="w-4 h-4 mr-2" />
                       Call Now
                     </a>
@@ -584,7 +584,7 @@ const Contact = () => {
               >
                 <a href="tel:+919880550827">
                   <Phone className="w-4 h-4 mr-2" />
-                  +91 98805 50827
+                  +91 91875 00287
                 </a>
               </Button>
               <Button

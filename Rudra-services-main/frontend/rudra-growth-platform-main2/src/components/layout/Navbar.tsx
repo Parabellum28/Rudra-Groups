@@ -60,11 +60,11 @@ const Navbar = () => {
       <div className="hidden lg:block bg-muted border-b border-border py-2">
         <div className="container flex justify-end items-center gap-6 text-sm font-body">
           <a
-            href="tel:+919880550827"
+            href="tel:+919187500287"
             className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <Phone className="w-4 h-4" />
-            +91 98805 50827
+            +91 91875 00287
           </a>
           <a
             href="mailto:operations@rudra-groups.com"
@@ -160,11 +160,11 @@ const Navbar = () => {
                 ))}
                 <div className="pt-4 border-t border-border flex flex-col gap-3">
                   <a
-                    href="tel:+919880550827"
+                    href="tel:+919187500287"
                     className="flex items-center gap-2 text-muted-foreground font-medium"
                   >
                     <Phone className="w-4 h-4" />
-                    +91 98805 50827
+                    +91 91875 00287
                   </a>
                   <a
                     href="mailto:operations@rudra-groups.com"
