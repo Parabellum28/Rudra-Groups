@@ -97,6 +97,10 @@ const Interactive3DHero = () => {
         muted
         playsInline
         preload="auto"
+        style={{
+          // Keep the focus nicely centered on mobile where the viewport is narrower
+          objectPosition: isMobile ? "center center" : "center center",
+        }}
       >
         <source src={isMobile ? bgVid2Webm : bgVidWebm} type="video/webm" />
       </video>
