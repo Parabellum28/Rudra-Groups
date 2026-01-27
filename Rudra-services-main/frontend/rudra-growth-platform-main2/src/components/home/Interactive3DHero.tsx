@@ -6,12 +6,13 @@ import { Button } from "@/components/ui/button";
 import { KineticText } from "@/components/animations/KineticText";
 import { FloatingElement, OrbitingElement, MorphingShape } from "@/components/animations/3DAnimations";
 import { useIsMobile } from "@/hooks/use-mobile";
+import bgVidWebm from "@/assets/bg-vid.webm";
 
 const Interactive3DHero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
   const isMobile = useIsMobile();
-  
+
   // Mouse tracking for 3D parallax - disabled on mobile for better performance
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -69,62 +70,6 @@ const Interactive3DHero = () => {
     mouseY.set(0);
   };
 
-  // Generate small bubbles
-  const [smallBubbles] = useState(() => {
-    const count = isMobile ? 10 : 210;
-    return Array.from({ length: count }, (_, i) => ({
-      id: `small-${i}`,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 4 + 2, // 2-6px
-      duration: Math.random() * 6 + 2,
-      delay: Math.random() * 5,
-      opacity: Math.random() * 0.3 + 0.1,
-    }));
-  });
-
-  // Generate medium bubbles
-  const [mediumBubbles] = useState(() => {
-    const count = isMobile ? 4 : 105;
-    return Array.from({ length: count }, (_, i) => ({
-      id: `medium-${i}`,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 20 + 10, // 10-30px
-      duration: Math.random() * 8 + 4,
-      delay: Math.random() * 4,
-      opacity: Math.random() * 0.25 + 0.1,
-    }));
-  });
-
-  // Generate large bubbles
-  const [largeBubbles] = useState(() => {
-    const count = isMobile ? 2 : 56;
-    return Array.from({ length: count }, (_, i) => ({
-      id: `large-${i}`,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 60 + 40, // 40-100px
-      duration: Math.random() * 10 + 6,
-      delay: Math.random() * 3,
-      opacity: Math.random() * 0.15 + 0.05,
-    }));
-  });
-
-  // Generate extra large floating orbs/bubbles - Disabled on mobile
-  const [floatingOrbs] = useState(() => {
-    const orbCount = isMobile ? 0 : 18;
-    return Array.from({ length: orbCount }, (_, i) => ({
-      id: `orb-${i}`,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 250 + 150, // 150-400px
-      duration: Math.random() * 12 + 8,
-      delay: Math.random() * 3,
-      opacity: Math.random() * 0.1 + 0.03,
-    }));
-  });
-  
   // Throttle mouse move events for better performance - more aggressive on mobile
   const mouseMoveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -143,10 +88,22 @@ const Interactive3DHero = () => {
         transform: 'translateZ(0)', // GPU acceleration
       }}
     >
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/90 z-[1]" />
+      {/* Background video for both desktop and mobile */}
+      <video
+        className="absolute inset-0 w-full h-full object-cover z-0"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+      >
+        <source src={bgVidWebm} type="video/webm" />
+      </video>
+
+      {/* Background gradient overlay (slightly lighter so video is more visible) */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/75 to-background/70 z-[1]" />
       
-      {/* Animated gradient background with parallax - simplified on mobile */}
+      {/* Animated gradient overlay with parallax - simplified on mobile */}
       {!isMobile ? (
         <motion.div
           className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-accent/5 z-[2]"
@@ -159,136 +116,6 @@ const Interactive3DHero = () => {
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-accent/5 z-[2]" />
       )}
-
-      {/* Extra large floating orbs/bubbles - Desktop only */}
-      {!isMobile && floatingOrbs.map((orb) => (
-        <motion.div
-          key={orb.id}
-          className={`absolute rounded-full bg-primary/20 z-[2] pointer-events-none ${isMobile ? 'blur-2xl' : 'blur-3xl'}`}
-          style={{
-            left: `${orb.x}%`,
-            top: `${orb.y}%`,
-            width: `${orb.size}px`,
-            height: `${orb.size}px`,
-            marginLeft: `-${orb.size / 2}px`,
-            marginTop: `-${orb.size / 2}px`,
-            opacity: orb.opacity,
-            willChange: isMobile ? 'auto' : 'transform, opacity',
-          }}
-          animate={isMobile ? {
-            scale: [1, 1.2, 1],
-            opacity: [orb.opacity, orb.opacity * 1.3, orb.opacity],
-          } : {
-            scale: [1, 1.3, 1],
-            x: [0, Math.random() * 100 - 50, 0],
-            y: [0, Math.random() * 80 - 40, 0],
-            opacity: [orb.opacity, orb.opacity * 1.5, orb.opacity],
-          }}
-          transition={{
-            duration: isMobile ? orb.duration * 1.5 : orb.duration,
-            delay: orb.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-
-      {/* Large bubbles */}
-      {largeBubbles.map((bubble) => (
-        <motion.div
-          key={bubble.id}
-          className={`absolute rounded-full bg-primary/25 z-[2] pointer-events-none ${isMobile ? '' : 'blur-md'}`}
-          style={{
-            left: `${bubble.x}%`,
-            top: `${bubble.y}%`,
-            width: `${bubble.size}px`,
-            height: `${bubble.size}px`,
-            marginLeft: `-${bubble.size / 2}px`,
-            marginTop: `-${bubble.size / 2}px`,
-            opacity: bubble.opacity,
-            willChange: isMobile ? 'auto' : 'transform, opacity',
-          }}
-          animate={isMobile ? {
-            y: [0, -40, 0],
-            opacity: [bubble.opacity * 0.7, bubble.opacity, bubble.opacity * 0.7],
-          } : {
-            y: [0, -50, 0],
-            x: [0, Math.random() * 40 - 20, 0],
-            scale: [1, 1.4, 1],
-            opacity: [bubble.opacity * 0.6, bubble.opacity, bubble.opacity * 0.6],
-          }}
-          transition={{
-            duration: isMobile ? bubble.duration * 1.5 : bubble.duration,
-            delay: bubble.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-
-      {/* Medium bubbles */}
-      {mediumBubbles.map((bubble) => (
-        <motion.div
-          key={bubble.id}
-          className={`absolute rounded-full bg-primary/30 z-[2] pointer-events-none ${isMobile ? '' : 'blur-sm'}`}
-          style={{
-            left: `${bubble.x}%`,
-            top: `${bubble.y}%`,
-            width: `${bubble.size}px`,
-            height: `${bubble.size}px`,
-            marginLeft: `-${bubble.size / 2}px`,
-            marginTop: `-${bubble.size / 2}px`,
-            opacity: bubble.opacity,
-            willChange: isMobile ? 'auto' : 'transform, opacity',
-          }}
-          animate={isMobile ? {
-            y: [0, -35, 0],
-            opacity: [bubble.opacity * 0.6, bubble.opacity, bubble.opacity * 0.6],
-          } : {
-            y: [0, -45, 0],
-            x: [0, Math.random() * 35 - 17.5, 0],
-            scale: [1, 1.5, 1],
-            opacity: [bubble.opacity * 0.5, bubble.opacity, bubble.opacity * 0.5],
-          }}
-          transition={{
-            duration: isMobile ? bubble.duration * 1.5 : bubble.duration,
-            delay: bubble.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-      
-      {/* Small bubbles */}
-      {smallBubbles.map((bubble) => (
-        <motion.div
-          key={bubble.id}
-          className="absolute rounded-full bg-primary/40 z-[2] pointer-events-none"
-          style={{
-            left: `${bubble.x}%`,
-            top: `${bubble.y}%`,
-            width: `${bubble.size}px`,
-            height: `${bubble.size}px`,
-            opacity: bubble.opacity,
-            willChange: isMobile ? 'auto' : 'transform, opacity',
-          }}
-          animate={isMobile ? {
-            y: [0, -30, 0],
-            opacity: [bubble.opacity * 0.5, bubble.opacity, bubble.opacity * 0.5],
-          } : {
-            y: [0, -40, 0],
-            x: [0, Math.random() * 30 - 15, 0],
-            scale: [1, 1.6, 1],
-            opacity: [bubble.opacity * 0.4, bubble.opacity, bubble.opacity * 0.4],
-          }}
-          transition={{
-            duration: isMobile ? bubble.duration * 1.5 : bubble.duration,
-            delay: bubble.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
 
       {/* 3D Floating Shapes - disabled on mobile for better performance */}
       {!isMobile && (
