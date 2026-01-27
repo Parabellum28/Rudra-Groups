@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, Instagram, Twitter, Linkedin } from "lucide-react";
+import { Phone, Mail, Instagram, Twitter, Linkedin, Facebook } from "lucide-react";
 import logo from "../../rudra-logo.png";
 
 const Footer = () => {
@@ -85,11 +85,11 @@ const Footer = () => {
             <ul className="space-y-3 font-body text-sm mb-6">
               <li>
                 <a
-                  href="tel:+919880550827"
+                  href="tel:+919187500287"
                   className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <Phone className="w-4 h-4" />
-                  +91 98805 50827
+                  +91 91875 00287
                 </a>
               </li>
               <li>
@@ -109,6 +109,15 @@ const Footer = () => {
                 Follow Us
               </h4>
               <div className="flex items-center gap-3 sm:gap-4">
+                <a
+                  href="https://www.facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-background/80 border border-border flex items-center justify-center text-muted-foreground hover:text-blue-500 hover:border-blue-500/50 active:scale-95 transition-all duration-300 touch-manipulation"
+                  aria-label="Visit our Facebook page"
+                >
+                  <Facebook className="w-5 h-5 sm:w-5 sm:h-5" />
+                </a>
                 <a
                   href="https://www.instagram.com"
                   target="_blank"

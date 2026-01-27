@@ -82,7 +82,7 @@ const Interactive3DHero = () => {
       initial={{ opacity: 0 }}
       animate={isInView ? { opacity: 1 } : {}}
       transition={{ duration: 1 }}
-      className="relative overflow-hidden bg-background min-h-[100vh] flex items-center perspective-2000"
+      className="relative overflow-hidden bg-background h-screen min-h-[100vh] flex items-center perspective-2000"
       style={{ 
         transformStyle: "preserve-3d",
         willChange: 'transform',
