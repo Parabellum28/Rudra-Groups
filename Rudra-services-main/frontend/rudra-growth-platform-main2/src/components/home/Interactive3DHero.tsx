@@ -7,6 +7,7 @@ import { KineticText } from "@/components/animations/KineticText";
 import { FloatingElement, OrbitingElement, MorphingShape } from "@/components/animations/3DAnimations";
 import { useIsMobile } from "@/hooks/use-mobile";
 import bgVidWebm from "@/assets/bg-vid.webm";
+import bgVid2Webm from "@/assets/bg-vid2.webm";
 
 const Interactive3DHero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -97,7 +98,7 @@ const Interactive3DHero = () => {
         playsInline
         preload="auto"
       >
-        <source src={bgVidWebm} type="video/webm" />
+        <source src={isMobile ? bgVid2Webm : bgVidWebm} type="video/webm" />
       </video>
 
       {/* Background gradient overlay (slightly lighter so video is more visible) */}
@@ -169,14 +170,14 @@ const Interactive3DHero = () => {
       )}
 
       {/* Main content with 3D transform */}
-      <div className="container relative z-10 py-20 lg:py-32">
+      <div className="container relative z-10 py-20 lg:py-32 lg:flex lg:justify-start">
         <motion.div
           style={{
             rotateX,
             rotateY,
             transformStyle: "preserve-3d",
           }}
-          className="max-w-4xl mx-auto text-center"
+          className="w-full max-w-4xl mx-auto text-center lg:mx-0 lg:max-w-2xl lg:text-left"
         >
           {/* Main Headline with kinetic text animation */}
           <motion.div
@@ -186,15 +187,15 @@ const Interactive3DHero = () => {
             style={{ transform: "translateZ(50px)" }}
           >
             <h1 className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground mb-6 sm:mb-8 leading-[1.15] sm:leading-[1.1] md:leading-[1.05] tracking-tight px-2 sm:px-4" style={{ wordBreak: 'normal', overflowWrap: 'normal' }}>
-              <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-1.5 sm:gap-2 md:gap-3">
+              <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-1.5 sm:gap-2 md:gap-3 lg:justify-start lg:items-start">
                 <KineticText
                   variant="hero"
                   delay={0.2}
-                  className="inline-block whitespace-nowrap text-center"
+                  className="inline-block whitespace-nowrap text-center lg:text-left"
                 >
                   360° Business Consulting
                 </KineticText>
-                <span className="inline-block whitespace-nowrap text-center" style={{ color: '#00d4ff' }}>
+                <span className="inline-block whitespace-nowrap text-center lg:text-left" style={{ color: '#00d4ff' }}>
                   <KineticText
                     variant="hero"
                     delay={0.5}
@@ -213,7 +214,7 @@ const Interactive3DHero = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
             style={{ transform: "translateZ(30px)" }}
-            className="font-body text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed font-light text-center px-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
+            className="font-body text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed font-light text-center px-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] lg:mx-0 lg:max-w-xl lg:text-left"
           >
             Rudra Groups delivers strategy, branding, expansion, infrastructure, and automation solutions 
             with clarity and confidence. Your trusted partner for complete business transformation.
@@ -225,7 +226,7 @@ const Interactive3DHero = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.5 }}
             style={{ transform: "translateZ(40px)" }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center lg:justify-start"
           >
             <motion.div
               whileHover={{ 
