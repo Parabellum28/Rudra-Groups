@@ -34,12 +34,15 @@ const BrandingExecution = () => {
               <Sparkles className="w-4 h-4 text-primary" />
               <span className="text-sm font-medium text-primary">Branding Execution</span>
             </div>
-            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-4 sm:mb-6 leading-tight px-2 sm:px-4">
+            <h1
+              className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-4 sm:mb-6 leading-tight px-2 sm:px-4"
+              style={{ wordBreak: "keep-all" }}
+            >
               <div className="block">
-                <KineticText variant="branding" delay={0.2} className="block" style={{ wordBreak: 'keep-all' }}>
+                <KineticText variant="branding" delay={0.2} className="block">
                   Strategic Branding That
                 </KineticText>
-                <KineticText variant="branding" delay={0.6} className="text-gradient block" style={{ wordBreak: 'keep-all' }}>
+                <KineticText variant="branding" delay={0.6} className="text-gradient block">
                   Transforms Vision Into Reality
                 </KineticText>
               </div>
