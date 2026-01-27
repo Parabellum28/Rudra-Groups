@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { KineticText } from "@/components/animations/KineticText";
 import { FloatingElement, OrbitingElement, MorphingShape } from "@/components/animations/3DAnimations";
 import { useIsMobile } from "@/hooks/use-mobile";
+import bgVidWebm from "@/assets/bg-vid.webm";
 import bgVid2Webm from "@/assets/bg-vid2.webm";
 
 const Interactive3DHero = () => {
@@ -101,7 +102,7 @@ const Interactive3DHero = () => {
           objectPosition: isMobile ? "center center" : "center center",
         }}
       >
-        <source src={bgVid2Webm} type="video/webm" />
+        <source src={isMobile ? bgVid2Webm : bgVidWebm} type="video/webm" />
       </video>
 
       {/* Background gradient overlay (slightly lighter so video is more visible) */}
