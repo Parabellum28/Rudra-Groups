@@ -253,7 +253,7 @@ const CTASection = () => {
                     >
                       <Phone className="w-4 h-4" />
                     </motion.div>
-                    +91 98805 50827
+                    +91 91875 00287
                   </motion.a>
                   <span className="hidden sm:block w-2 h-2 bg-glow-primary/30 rounded-full" />
                   <motion.a
