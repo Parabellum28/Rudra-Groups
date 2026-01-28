@@ -71,14 +71,14 @@ const OurEdgeSection = () => {
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-glow-cyan/6 rounded-full blur-[120px] pointer-events-none" />
       
       <div className="container relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid lg:grid-cols-2 gap-20 lg:gap-24 items-start">
           {/* Content */}
           <motion.div
             initial={{ opacity: 0, x: -50, rotateY: 10 }}
             animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             style={{ transformStyle: "preserve-3d" }}
-            className="relative z-10 lg:mb-8"
+            className="relative z-10 lg:mb-0 lg:pr-4"
           >
             <SectionHeading
               label="Our Edge"
@@ -87,7 +87,7 @@ const OurEdgeSection = () => {
               align="left"
               kineticTitle={true}
               kineticVariant="edge"
-              className="[&_h2]:lg:text-[44px]"
+              className="[&_h2]:lg:text-[44px] [&_[style]]:whitespace-normal [&_h2]:whitespace-normal [&_h2]:overflow-visible [&_span]:whitespace-nowrap"
             />
 
             <div className="grid sm:grid-cols-2 gap-6 mt-12">
@@ -138,7 +138,7 @@ const OurEdgeSection = () => {
             animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             style={{ transformStyle: "preserve-3d" }}
-            className="relative z-10 lg:z-20 lg:sticky lg:top-24 lg:mt-6"
+            className="relative z-10 lg:z-20 lg:sticky lg:top-40 lg:mt-0 lg:ml-4"
           >
             <Card3D intensity={12} glareEnabled={true}>
               <div className="glass-card no-glow-line rounded-3xl p-8 lg:p-12 relative overflow-hidden bg-card/40 backdrop-blur-xl">

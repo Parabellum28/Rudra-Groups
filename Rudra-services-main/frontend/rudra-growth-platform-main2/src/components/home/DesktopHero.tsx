@@ -15,8 +15,8 @@ const DesktopHero = () => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   
-  const springX = useSpring(mouseX, { stiffness: 100, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 100, damping: 20 });
+  const springX = useSpring(mouseX, { stiffness: 120, damping: 22 });
+  const springY = useSpring(mouseY, { stiffness: 120, damping: 22 });
   
   // Transform mouse position to rotation
   const rotateX = useTransform(springY, [-0.5, 0.5], [15, -15]);
@@ -33,7 +33,7 @@ const DesktopHero = () => {
     
     if (mouseMoveTimeoutRef.current) return;
     
-    const throttleDelay = 16; // 60fps on desktop
+    const throttleDelay = 24; // ~40fps for balanced performance
     mouseMoveTimeoutRef.current = setTimeout(() => {
       mouseMoveTimeoutRef.current = null;
     }, throttleDelay);

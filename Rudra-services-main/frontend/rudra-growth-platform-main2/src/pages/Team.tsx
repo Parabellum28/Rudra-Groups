@@ -130,18 +130,19 @@ const Team = () => {
       {/* Expertise */}
       <SectionWrapper as="section" className="py-12 sm:py-16 md:py-20 lg:py-28 bg-muted" delay={0.3}>
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
+          <div className="grid lg:grid-cols-2 gap-20 lg:gap-24 items-start">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="relative z-10"
+              className="relative z-10 lg:pr-4"
             >
               <SectionHeading
                 label="Our Expertise"
                 title="Deep Knowledge, Broad Experience"
                 align="left"
+                className="[&_[style]]:whitespace-normal [&_h2]:whitespace-normal [&_h2]:overflow-visible [&_span]:whitespace-normal"
               />
               <p className="font-body text-muted-foreground leading-relaxed mt-6 mb-6">
                 Our team comprises seasoned professionals who have walked in our 
@@ -197,7 +198,7 @@ const Team = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="bg-primary card-gradient-glow rounded-2xl p-8 lg:p-12 relative z-10 lg:sticky lg:top-24 lg:mt-[136px]"
+              className="bg-primary card-gradient-glow rounded-2xl p-8 lg:p-12 relative z-10 lg:sticky lg:top-40 lg:mt-0 lg:ml-4"
             >
               <h3 className="font-display text-2xl font-bold text-primary-foreground mb-6">
                 Join Our Team

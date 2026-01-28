@@ -16,12 +16,13 @@ export const Card3D = ({
   glareEnabled = true 
 }: Card3DProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const mouseMoveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   
-  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
-  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
+  const mouseXSpring = useSpring(x, { stiffness: 350, damping: 35 });
+  const mouseYSpring = useSpring(y, { stiffness: 350, damping: 35 });
   
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], [`${intensity}deg`, `-${intensity}deg`]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], [`-${intensity}deg`, `${intensity}deg`]);
@@ -31,6 +32,13 @@ export const Card3D = ({
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return;
+    
+    // Light throttling for performance
+    if (mouseMoveTimeoutRef.current) return;
+    
+    mouseMoveTimeoutRef.current = setTimeout(() => {
+      mouseMoveTimeoutRef.current = null;
+    }, 20);
     
     const rect = ref.current.getBoundingClientRect();
     const width = rect.width;
@@ -48,6 +56,14 @@ export const Card3D = ({
     x.set(0);
     y.set(0);
   };
+
+  useEffect(() => {
+    return () => {
+      if (mouseMoveTimeoutRef.current) {
+        clearTimeout(mouseMoveTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <motion.div
