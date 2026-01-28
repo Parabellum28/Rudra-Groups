@@ -3,6 +3,7 @@ import { Shield, Users, Zap, Award, Quote } from "lucide-react";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Card3D, FloatingElement, OrbitingElement } from "@/components/animations/3DAnimations";
 import { useRef } from "react";
+import sogaduBLImage from "@/assets/sogadu-BL.png";
 
 const edges = [
   {
@@ -173,17 +174,21 @@ const OurEdgeSection = () => {
                     style={{ transform: "translateZ(30px)" }}
                   >
                     <motion.div 
-                      className="w-14 h-14 rounded-full bg-gradient-to-br from-glow-primary to-glow-cyan flex items-center justify-center shadow-glow-md"
+                      className="w-14 h-14 rounded-full bg-gradient-to-br from-glow-primary to-glow-cyan flex items-center justify-center shadow-glow-md overflow-hidden"
                       whileHover={{ scale: 1.1, rotateZ: 10 }}
                     >
-                      <span className="font-display font-bold text-lg text-primary-foreground">BL</span>
+                      <img 
+                        src={sogaduBLImage} 
+                        alt="Sogadu Samskruti Resort Owner" 
+                        className="w-full h-full object-cover"
+                      />
                     </motion.div>
                     <div>
                       <div className="font-body font-semibold text-foreground">
-                        Business Leader
+                        Sogodu Resort
                       </div>
                       <div className="font-body text-sm text-muted-foreground">
-                        Enterprise Client
+                        Sogadu Samskruti Resort Owner
                       </div>
                     </div>
                   </div>
