@@ -9,7 +9,7 @@ const SocialMediaBar = () => {
     {
       name: "Instagram",
       icon: Instagram,
-      url: "https://www.instagram.com/rudra___groups?igsh=djc4cjA1NzRlanFj", // Update with actual Instagram URL
+      url: "https://www.instagram.com/rudra___groups?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw%3D%3D", // Update with actual Instagram URL
       color: "hover:text-pink-500",
     },
     {
