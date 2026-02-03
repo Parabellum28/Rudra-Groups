@@ -505,135 +505,11 @@
 
   /* Icon Circle - Blue Theme */
   .icon-circle {
-    @apply w-14 h-14 rounded-xl flex items-center justify-center;
+    @apply w-14 h-14 rounded-full flex items-center justify-center;
     background: linear-gradient(135deg, hsl(var(--muted) / 0.8) 0%, hsl(var(--card)) 100%);
     border: 1px solid hsl(var(--glow-primary) / 0.2);
-  }
-
-  .icon-circle-glow {
-    @apply icon-circle;
-    box-shadow: 0 0 30px -5px hsl(var(--glow-primary) / 0.3);
-  }
-
-  /* Premium Blue Gradient Glow Effects */
-  .glow-bottom {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .glow-bottom::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    height: 60%;
-    background: radial-gradient(
-      ellipse at center bottom,
-      hsl(var(--glow-primary) / 0.35) 0%,
-      hsl(var(--glow-cyan) / 0.15) 40%,
-      transparent 70%
-    );
-    filter: blur(40px);
-    pointer-events: none;
-  }
-
-  .glow-border {
-    position: relative;
-  }
-
-  .glow-border::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      180deg,
-      hsl(var(--glow-light) / 0.3) 0%,
-      hsl(var(--glow-primary) / 0.5) 50%,
-      hsl(var(--glow-cyan) / 0.3) 100%
-    );
-    -webkit-mask: 
-      linear-gradient(#fff 0 0) content-box, 
-      linear-gradient(#fff 0 0);
-    mask: 
-      linear-gradient(#fff 0 0) content-box, 
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-
-  /* Premium Blue Text Gradient */
-  .text-gradient {
-    background: linear-gradient(
-      135deg,
-      hsl(var(--glow-light)) 0%,
-      hsl(var(--glow-primary)) 50%,
-      hsl(var(--glow-cyan)) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    /* Fallback for browsers that don't support background-clip: text */
-    color: hsl(var(--glow-primary));
-  }
-  
-  /* Ensure text-gradient works on mobile browsers */
-  @supports (-webkit-background-clip: text) or (background-clip: text) {
-    .text-gradient {
-      -webkit-text-fill-color: transparent;
-      color: transparent;
-    }
-  }
-  
-  /* Fallback for mobile browsers that have issues with text gradients */
-  @media (max-width: 768px) {
-    .text-gradient {
-      /* Ensure visibility even if gradient doesn't work */
-      color: hsl(var(--glow-primary)) !important;
-      background: none !important;
-      -webkit-text-fill-color: hsl(var(--glow-primary)) !important;
-    }
-    
-    /* Try to apply gradient if supported */
-    @supports (-webkit-background-clip: text) {
-      .text-gradient {
-        background: linear-gradient(
-          135deg,
-          hsl(var(--glow-light)) 0%,
-          hsl(var(--glow-primary)) 50%,
-          hsl(var(--glow-cyan)) 100%
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        color: transparent;
-      }
-    }
-  }
-
-  .text-gradient-subtle {
-    background: linear-gradient(
-      90deg,
-      hsl(var(--foreground)) 0%,
-      hsl(var(--glow-light)) 50%,
-      hsl(var(--foreground)) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  /* Icon Circle - Glassmorphism with Neumorphic */
-  .icon-circle {
-    @apply w-14 h-14 rounded-full flex items-center justify-center;
-    background: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 
       inset 2px 2px 4px rgba(0, 0, 0, 0.5),
       inset -2px -2px 4px rgba(255, 255, 255, 0.05);
@@ -644,13 +520,13 @@
     .icon-circle {
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
-      background: rgba(0, 0, 0, 0.5) !important;
+      background: hsl(var(--muted) / 0.8) !important;
     }
   }
 
   .icon-circle-glow {
     @apply icon-circle;
-    position: relative;
+    box-shadow: 0 0 30px -5px hsl(var(--glow-primary) / 0.3);
   }
 
   .icon-circle-glow::after {
@@ -881,8 +757,7 @@
     }
   }
 
-  /* Card gradient glow effect - Removed */
-  /* Card gradient glow effect - Blue to Purple */
+  /* Card gradient glow effect */
   .card-gradient-glow {
     position: relative;
   }
@@ -910,18 +785,8 @@
     border-radius: 0 0 inherit inherit;
   }
   
-  /* Remove purple glow on mobile */
-  @media (max-width: 768px) {
-    .card-gradient-glow::after {
-      display: none !important;
-      content: none !important;
-      height: 0 !important;
-      opacity: 0 !important;
-    }
-  }
-  
-  /* Remove purple glow on desktop only */
-  @media (min-width: 769px) {
+  /* Remove purple glow on all devices */
+  @media (max-width: 768px), (min-width: 769px) {
     .card-gradient-glow::after {
       display: none !important;
       content: none !important;

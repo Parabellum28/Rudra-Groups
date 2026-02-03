@@ -110,7 +110,7 @@ const Footer = () => {
               </h4>
               <div className="flex items-center gap-3 sm:gap-4">
                 <a
-                  href="https://www.facebook.com"
+                  href="https://www.facebook.com/profile.php?id=61587451671976"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-background/80 border border-border flex items-center justify-center text-muted-foreground hover:text-blue-500 hover:border-blue-500/50 active:scale-95 transition-all duration-300 touch-manipulation"

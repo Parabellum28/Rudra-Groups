@@ -3,10 +3,10 @@ import { useRef, useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const stats = [
-  { number: 45, suffix: "+", label: "Projects Delivered", description: "Successful implementations" },
+  { number: 10, suffix: "+", label: "Projects Delivered", description: "Successful implementations" },
   { number: 98, suffix: "%", label: "Client Satisfaction", description: "Positive feedback rate" },
   { number: 2, suffix: "+", label: "Years Experience", description: "Industry expertise" },
-  { number: 50, suffix: "+", label: "Industry Experts", description: "Dedicated professionals" },
+  { number: 25, suffix: "+", label: "Industry Experts", description: "Dedicated professionals" },
 ];
 
 const AnimatedCounter = ({ 
