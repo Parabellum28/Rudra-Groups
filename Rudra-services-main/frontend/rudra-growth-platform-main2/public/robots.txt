@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://rudra-groups.onrender.com/sitemap.xml
+Sitemap: https://rudreshgroups.com/sitemap.xml
